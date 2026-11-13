@@ -1,0 +1,10 @@
+{
+  "name": "yi-yang-technical-blog",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node verify-site.mjs"
+  }
+}

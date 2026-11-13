@@ -1,0 +1,752 @@
+{
+  "name": "yi yang",
+  "nameZh": "杨逸",
+  "title": "杨逸的技术博客",
+  "titleEn": "yi yang's technical blog",
+  "githubKey": "github-profile",
+  "links": {
+    "github-profile": "https://github.com/yiy1x",
+    "ocsd-paper": "https://arxiv.org/abs/2608.04788",
+    "ocsd-pdf": "https://arxiv.org/pdf/2608.04788",
+    "ocsd-code": "https://github.com/yiy1x/OCSD",
+    "multilcr-paper": "https://aclanthology.org/2026.emnlp-main.1918/",
+    "multilcr-pdf": "https://aclanthology.org/2026.emnlp-main.1918.pdf",
+    "multilcr-code": "https://github.com/yiy1x/MultiLCR",
+    "multilcr-data": "https://huggingface.co/datasets/awriter0000/multi-lcr/tree/main",
+    "selskill-paper": "https://aclanthology.org/2026.findings-emnlp.222/",
+    "selskill-pdf": "https://aclanthology.org/2026.findings-emnlp.222.pdf",
+    "selskill-preprint": "https://arxiv.org/abs/2606.00510",
+    "selskill-code": "https://github.com/ChenChiShui/selective-skill-invocation",
+    "lawshift-paper": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/adf82a0a1d52d93961476458b9566a2b-Abstract-Datasets_and_Benchmarks_Track.html",
+    "lawshift-pdf": "https://proceedings.neurips.cc/paper_files/paper/2025/file/adf82a0a1d52d93961476458b9566a2b-Paper-Datasets_and_Benchmarks_Track.pdf",
+    "lawshift-code": "https://github.com/triangularPeach/LawShift",
+    "lawshift-data": "https://huggingface.co/datasets/triangularPeach/LawShift/tree/main",
+    "lawre-paper": "https://ieeexplore.ieee.org/document/11728674",
+    "qr-ljp-paper": "https://dl.acm.org/doi/10.1145/3807945",
+    "qr-ljp-pdf": "https://dl.acm.org/doi/pdf/10.1145/3807945",
+    "qr-ljp-code": "https://github.com/RossHann/qr-ljp",
+    "futurebridge-opd-paper": "https://arxiv.org/abs/2608.01953",
+    "futurebridge-opd-pdf": "https://arxiv.org/pdf/2608.01953",
+    "futurebridge-opd-code": "https://github.com/ChenChiShui/FutureBridge-OPD"
+  },
+  "featuredEntry": "ocsd",
+  "paperOrder": [
+    "ocsd",
+    "futurebridge-opd",
+    "multilcr",
+    "skill-or-skip",
+    "lawshift",
+    "lawre",
+    "qr-ljp"
+  ],
+  "topicAliases": [
+    {
+      "id": "reports",
+      "target": "notes"
+    }
+  ],
+  "topics": [
+    {
+      "id": "papers",
+      "name": "论文",
+      "description": "AI Agent 与法律人工智能方向的论文，附全文、代码与数据入口。",
+      "empty": "暂无论文条目。",
+      "en": {
+        "name": "Papers",
+        "description": "Research on AI agents and AI for law, with links to papers, code, and datasets.",
+        "empty": "No paper entries yet."
+      }
+    },
+    {
+      "id": "projects",
+      "name": "项目",
+      "description": "个人开发与开源实践，以及感兴趣的开源项目。",
+      "empty": "暂无项目文章。",
+      "en": {
+        "name": "Projects",
+        "description": "Personal development, open-source work, and projects I find interesting.",
+        "empty": "No project entries yet."
+      }
+    },
+    {
+      "id": "notes",
+      "name": "笔记",
+      "description": "论文阅读、专题调研，以及实验和开发过程中的技术笔记。",
+      "empty": "暂无笔记。",
+      "en": {
+        "name": "Notes",
+        "description": "Reading notes, research reports, and technical observations from experiments and development.",
+        "empty": "No notes yet."
+      }
+    }
+  ],
+  "entries": [
+    {
+      "slug": "ocsd",
+      "brief": {
+        "title": "OCSD",
+        "summary": "Distilling signals from future observations to improve reinforcement learning for agents.",
+        "summaryZh": "从后续环境观测中提炼监督信号，改进 Agent 的强化学习训练。"
+      },
+      "topic": "papers",
+      "title": "Agentic Reinforcement Learning with Observation-Calibrated Self-Distillation",
+      "originalTitle": "Agentic Reinforcement Learning with Observation-Calibrated Self-Distillation",
+      "authors": [
+        {
+          "name": "Yi Yang",
+          "isSelf": true,
+          "equalContribution": true
+        },
+        {
+          "name": "Cong Qin",
+          "equalContribution": true
+        },
+        {
+          "name": "Xiaodan Liu",
+          "equalContribution": true
+        },
+        {
+          "name": "Chishui Chen",
+          "equalContribution": true
+        },
+        {
+          "name": "Qing Dong",
+          "equalContribution": true
+        },
+        {
+          "name": "Yan Zhang",
+          "equalContribution": true
+        },
+        {
+          "name": "Cao Liu"
+        },
+        {
+          "name": "Zhao Yang"
+        },
+        {
+          "name": "Lu Pan"
+        },
+        {
+          "name": "Jiaye Lin",
+          "corresponding": true
+        },
+        {
+          "name": "Yi Feng",
+          "corresponding": true
+        }
+      ],
+      "authorSourceKey": "ocsd-pdf",
+      "relation": "自己的论文",
+      "publishedAt": null,
+      "publication": {
+        "status": "preprint",
+        "venue": "arXiv",
+        "year": 2026,
+        "urlKey": "ocsd-paper"
+      },
+      "sourceCheckedAt": "2026-11-13",
+      "summary": "OCSD contrasts structurally matched replay views with and without future observations to isolate observation-specific supervision. It uses the resulting residual to modulate token-level GRPO updates at high-uncertainty steps while preserving the trajectory-level update direction.",
+      "summaryZh": "OCSD 对比包含与移除未来观测、但结构相匹配的回放视图，分离观测本身带来的监督信号，并在高不确定性步骤调整 token 级 GRPO 更新，同时保留轨迹级更新方向。",
+      "sections": [
+        {
+          "title": "Publication",
+          "paragraphs": [
+            "Preprint available as arXiv:2608.04788. The first version was submitted on August 5, 2026."
+          ]
+        },
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "On-policy self-distillation can mix support from privileged future observations with token-score changes caused by the replay scaffold itself. OCSD compares Full and Observation-Ablated replay views to discount shared scaffold effects. The paper reports experiments on ALFWorld, WebShop, and Search-QA across three Qwen3 model scales, as well as diagnostic analyses of alignment with local environment feedback."
+          ]
+        },
+        {
+          "title": "Tasks and Configuration",
+          "items": [
+            "Tasks: ALFWorld, WebShop, and Search-QA.",
+            "Model configurations: Qwen3 1.7B, 4B, and 8B.",
+            "Code license: Apache License 2.0."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "label": "Paper PDF",
+          "urlKey": "ocsd-pdf"
+        },
+        {
+          "label": "GitHub repository",
+          "urlKey": "ocsd-code"
+        }
+      ],
+      "sourceNote": "Publication metadata follows the linked paper and official repository."
+    },
+    {
+      "slug": "multilcr",
+      "brief": {
+        "title": "MultiLCR",
+        "summary": "Retrieving legal cases through individual defendants' roles and judgment outcomes.",
+        "summaryZh": "从被告角色与判决结果出发，让多被告案例检索更贴近法律推理。"
+      },
+      "topic": "papers",
+      "title": "Beyond Case-Level Similarity: Multi-Defendant Legal Case Retrieval via Individual-Aware Reasoning",
+      "originalTitle": "Beyond Case-Level Similarity: Multi-Defendant Legal Case Retrieval via Individual-Aware Reasoning",
+      "authors": [
+        {
+          "name": "Yi Yang",
+          "isSelf": true,
+          "equalContribution": true
+        },
+        {
+          "name": "Ruize Ma",
+          "equalContribution": true
+        },
+        {
+          "name": "Yi Feng",
+          "corresponding": true
+        },
+        {
+          "name": "Chuanyi Li"
+        },
+        {
+          "name": "Vincent Ng"
+        }
+      ],
+      "authorSourceKey": "multilcr-pdf",
+      "relation": "自己的论文",
+      "publishedAt": null,
+      "publication": {
+        "status": "published",
+        "venue": "EMNLP main conference",
+        "year": 2026,
+        "urlKey": "multilcr-paper"
+      },
+      "sourceCheckedAt": "2026-11-13",
+      "summary": "MultiLCR studies legal case retrieval beyond case-level textual similarity by modeling defendants' roles and judgment outcomes. It introduces the Multi-ELAM and Multi-LeCaRDv2 datasets with defendant-level annotations and a role- and judgment-aware retrieval framework.",
+      "summaryZh": "MultiLCR 通过建模被告角色与判决结果，让法律案例检索超越整案文本相似度。论文构建了带有被告级标注的 Multi-ELAM 和 Multi-LeCaRDv2 数据集，并提出角色与判决感知的检索框架。",
+      "sections": [
+        {
+          "title": "Publication",
+          "paragraphs": [
+            "Accepted to the EMNLP 2026 main conference and published in the conference proceedings (October 2026).",
+            "ACL Anthology ID: 2026.emnlp-main.1918. Pages: 43688–43713. Publisher: Association for Computational Linguistics. DOI: 10.18653/2026.emnlp-main.1918."
+          ]
+        },
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "Surface-level textual matching can overlook the distinct roles and judgment outcomes of defendants in multi-defendant cases. The paper enriches existing benchmarks with defendant-level annotations and proposes a role- and judgment-aware framework. Its abstract reports improvements over state-of-the-art baselines for multi-defendant legal case retrieval."
+          ]
+        },
+        {
+          "title": "Resource Availability",
+          "items": [
+            "The Multi-LCR dataset is available on Hugging Face.",
+            "See the GitHub repository for code availability and setup instructions."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "label": "Paper PDF",
+          "urlKey": "multilcr-pdf"
+        },
+        {
+          "label": "GitHub repository",
+          "urlKey": "multilcr-code"
+        },
+        {
+          "label": "Multi-LCR dataset",
+          "urlKey": "multilcr-data"
+        }
+      ],
+      "sourceNote": "Publication metadata follows the linked paper and official repository."
+    },
+    {
+      "slug": "skill-or-skip",
+      "brief": {
+        "title": "SelSkill",
+        "summary": "Teaching agents when to invoke a reusable skill—and when to skip it.",
+        "summaryZh": "让 Agent 学会何时调用技能、何时跳过，而不是一味增加技能调用。"
+      },
+      "topic": "papers",
+      "title": "Skill or Skip? Learning Selective Skill Invocation in Agentic Tasks via Dual-Granularity Preference Learning",
+      "originalTitle": "Skill or Skip? Learning Selective Skill Invocation in Agentic Tasks via Dual-Granularity Preference Learning",
+      "authors": [
+        {
+          "name": "Chishui Chen",
+          "equalContribution": true
+        },
+        {
+          "name": "Jiaye Lin",
+          "equalContribution": true,
+          "corresponding": true
+        },
+        {
+          "name": "Te Sun",
+          "equalContribution": true
+        },
+        {
+          "name": "Yi Yang",
+          "isSelf": true,
+          "equalContribution": true
+        },
+        {
+          "name": "Junxi Wang"
+        },
+        {
+          "name": "Cong Qin"
+        },
+        {
+          "name": "Yangen Hu"
+        },
+        {
+          "name": "Lu Pan"
+        },
+        {
+          "name": "Ke Zeng"
+        }
+      ],
+      "authorSourceKey": "selskill-pdf",
+      "relation": "自己的论文",
+      "publishedAt": null,
+      "publication": {
+        "status": "published",
+        "venue": "Findings of EMNLP",
+        "year": 2026,
+        "urlKey": "selskill-paper"
+      },
+      "sourceCheckedAt": "2026-11-13",
+      "summary": "SelSkill learns when an agent should invoke a reusable skill and when it should skip it. It combines episode-level and step-level preference learning with controlled invoke-or-skip comparisons to improve selective skill use in agentic tasks.",
+      "summaryZh": "SelSkill 研究 Agent 何时应调用可复用技能、何时应跳过，通过控制调用与跳过的对照轨迹，结合任务级和步骤级偏好学习，提升技能调用的选择性。",
+      "sections": [
+        {
+          "title": "Publication",
+          "paragraphs": [
+            "Accepted to Findings of EMNLP 2026 and published in Findings of the Association for Computational Linguistics: EMNLP 2026 (October 2026).",
+            "ACL Anthology ID: 2026.findings-emnlp.222. Pages: 4665–4681. DOI: 10.18653/2026.findings-emnlp.222."
+          ]
+        },
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "Reusable skills can help agents, but indiscriminate invocation can be counterproductive. SelSkill prioritizes uncertain decision points and constructs invoke-or-skip preference pairs that share the same trajectory prefix. It combines episode-level outcomes with step-level signals to train selective skill invocation."
+          ]
+        },
+        {
+          "title": "Evaluation",
+          "paragraphs": [
+            "The paper evaluates selective skill invocation on ALFWorld and BFCL, with additional zero-shot transfer experiments on Tau-bench and PopQA."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "label": "Paper PDF",
+          "urlKey": "selskill-pdf"
+        },
+        {
+          "label": "arXiv",
+          "urlKey": "selskill-preprint"
+        },
+        {
+          "label": "GitHub repository",
+          "urlKey": "selskill-code"
+        }
+      ],
+      "sourceNote": "Publication metadata follows the linked paper and official repository."
+    },
+    {
+      "slug": "lawshift",
+      "brief": {
+        "title": "LawShift",
+        "summary": "Testing whether judgment prediction models adapt when statutes change.",
+        "summaryZh": "当法条发生修订，检验司法预测模型能否相应调整判断。"
+      },
+      "topic": "papers",
+      "title": "LawShift: Benchmarking Legal Judgment Prediction Under Statute Shifts",
+      "originalTitle": "LawShift: Benchmarking Legal Judgment Prediction Under Statute Shifts",
+      "authors": [
+        {
+          "name": "Zhuo Han",
+          "equalContribution": true
+        },
+        {
+          "name": "Yi Yang",
+          "isSelf": true,
+          "equalContribution": true
+        },
+        {
+          "name": "Yi Feng",
+          "corresponding": true
+        },
+        {
+          "name": "Wanhong Huang"
+        },
+        {
+          "name": "Xuxing Ding"
+        },
+        {
+          "name": "Chuanyi Li"
+        },
+        {
+          "name": "Jidong Ge"
+        },
+        {
+          "name": "Vincent Ng"
+        }
+      ],
+      "authorSourceKey": "lawshift-pdf",
+      "relation": "自己的论文",
+      "publishedAt": null,
+      "publication": {
+        "status": "published",
+        "venue": "NeurIPS Datasets and Benchmarks Track",
+        "year": 2025,
+        "urlKey": "lawshift-paper"
+      },
+      "sourceCheckedAt": "2026-11-13",
+      "summary": "LawShift benchmarks legal judgment prediction under statutory revisions. Covering 31 fine-grained change types, it uses metamorphic testing to examine whether models adapt their judgments to changes in the law.",
+      "summaryZh": "LawShift 评估法律条文修订下的司法判决预测能力，覆盖 31 类细粒度法条变化，通过蜕变测试检查模型能否随法律变化调整判决。",
+      "sections": [
+        {
+          "title": "Publication",
+          "paragraphs": [
+            "Accepted to the NeurIPS 2025 Datasets and Benchmarks Track as a poster and published in the conference proceedings."
+          ]
+        },
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "Legal judgment prediction models need to account for statutory revisions rather than rely on a static view of the law. LawShift introduces a Chinese legal benchmark covering 31 fine-grained revision types. Its metamorphic testing framework examines expected relationships between predictions before and after a statute changes."
+          ]
+        },
+        {
+          "title": "Evaluation",
+          "paragraphs": [
+            "The paper evaluates five representative legal judgment prediction models, revealing limitations in their response to legal updates and differences in adaptability across model architectures."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "label": "Paper PDF",
+          "urlKey": "lawshift-pdf"
+        },
+        {
+          "label": "GitHub repository",
+          "urlKey": "lawshift-code"
+        },
+        {
+          "label": "LawShift dataset",
+          "urlKey": "lawshift-data"
+        }
+      ],
+      "sourceNote": "Publication metadata follows the linked paper and official repository."
+    },
+    {
+      "slug": "lawre",
+      "brief": {
+        "title": "LAWRE",
+        "summary": "Looking beyond recall to diagnose practical legal reasoning in case retrieval.",
+        "summaryZh": "不只看召回率，用诊断性测试评估案例检索中的法律推理能力。"
+      },
+      "topic": "papers",
+      "title": "LAWRE: Evaluating Legal Case Retrieval for Practical Legal Reasoning",
+      "originalTitle": "LAWRE: Evaluating Legal Case Retrieval for Practical Legal Reasoning",
+      "authors": [
+        {
+          "name": "Xichen Lin"
+        },
+        {
+          "name": "Yi Yang",
+          "isSelf": true
+        },
+        {
+          "name": "Shuxian Xie"
+        },
+        {
+          "name": "Yi Feng"
+        },
+        {
+          "name": "Chuanyi Li"
+        }
+      ],
+      "authorSourceKey": "lawre-paper",
+      "relation": "自己的论文",
+      "publishedAt": null,
+      "publication": {
+        "status": "published",
+        "venue": "IJCNN",
+        "year": 2026,
+        "month": 6,
+        "urlKey": "lawre-paper"
+      },
+      "sourceCheckedAt": "2026-11-13",
+      "summary": "LAWRE evaluates whether legal case retrieval systems possess the reasoning skills needed in practice, beyond high recall on existing benchmarks. It provides diagnostic tests for capabilities such as distinguishing easily confused cases and identifying legal elements.",
+      "summaryZh": "LAWRE 面向法律实践评估案例检索系统，关注易混淆案例区分、法律要素识别等推理能力，而不只看召回率，并通过诊断性测试分析模型短板。",
+      "sections": [
+        {
+          "title": "Publication",
+          "paragraphs": [
+            "Accepted to the 2026 International Joint Conference on Neural Networks (IJCNN) and published in its proceedings, pages 1–6. The conference took place on June 22–26, 2026, in Maastricht, Netherlands.",
+            "DOI: 10.1109/IJCNN69854.2026.11728674. The paper was added to IEEE Xplore on October 19, 2026."
+          ]
+        },
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "Strong retrieval scores do not necessarily demonstrate the legal reasoning required for practical use. LAWRE introduces a benchmark that probes these capabilities and provides detailed diagnostic feedback on legal case retrieval systems."
+          ]
+        },
+        {
+          "title": "Evaluation",
+          "paragraphs": [
+            "The paper evaluates eight representative retrieval models, identifying weaknesses that can guide the development of more practically effective legal case retrieval systems."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "label": "IEEE Xplore",
+          "urlKey": "lawre-paper"
+        }
+      ],
+      "sourceNote": "Publication metadata follows the linked paper and official repository."
+    },
+    {
+      "slug": "qr-ljp",
+      "brief": {
+        "title": "QR-LJP",
+        "summary": "Using monetary reasoning to better connect case facts with sentencing.",
+        "summaryZh": "把涉案金额的定量推理引入判决预测，更好地连接案情与量刑。"
+      },
+      "topic": "papers",
+      "title": "Improving Legal Judgment Prediction via Quantitative Reasoning",
+      "originalTitle": "Improving Legal Judgment Prediction via Quantitative Reasoning",
+      "authors": [
+        {
+          "name": "Zhuo Han"
+        },
+        {
+          "name": "Yi Feng"
+        },
+        {
+          "name": "Yi Yang",
+          "isSelf": true
+        },
+        {
+          "name": "Chuanyi Li"
+        },
+        {
+          "name": "Zhiwei Fei"
+        },
+        {
+          "name": "Xuxing Ding"
+        },
+        {
+          "name": "Jidong Ge"
+        },
+        {
+          "name": "Vincent Ng"
+        }
+      ],
+      "authorSourceKey": "qr-ljp-paper",
+      "relation": "自己的论文",
+      "publishedAt": "2026-05-19",
+      "publication": {
+        "status": "published",
+        "venue": "ACM Transactions on Knowledge Discovery from Data (TKDD)",
+        "year": 2026,
+        "month": 5,
+        "urlKey": "qr-ljp-paper"
+      },
+      "sourceCheckedAt": "2026-11-13",
+      "summary": "QR-LJP incorporates legal quantitative reasoning into judgment prediction. It extracts monetary values from case facts, determines the total crime amount using legal reasoning, and uses this measure of crime severity to improve judgment predictions, particularly prison terms.",
+      "summaryZh": "QR-LJP 将法律定量推理引入司法判决预测：从案情中提取金额，依据法律规则计算犯罪总金额，再用量化的犯罪严重程度辅助判决，尤其是刑期预测。",
+      "sections": [
+        {
+          "title": "Publication",
+          "paragraphs": [
+            "Published in ACM Transactions on Knowledge Discovery from Data (TKDD) on May 19, 2026. Volume 20, Issue 4, Article 66, pages 1–42.",
+            "DOI: 10.1145/3807945."
+          ]
+        },
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "Monetary features can be critical for assessing crime severity, yet models may overlook their legal significance. QR-LJP uses a domain-adapted language model to extract relevant amounts and perform quantitative reasoning. The resulting crime amount is aligned with legal knowledge to support judgment prediction."
+          ]
+        },
+        {
+          "title": "Evaluation",
+          "paragraphs": [
+            "The study evaluates legal judgment prediction on CAIL-2018 and examines how quantitative reasoning improves existing methods, with particular attention to prison term prediction."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "label": "Paper PDF",
+          "urlKey": "qr-ljp-pdf"
+        },
+        {
+          "label": "GitHub repository",
+          "urlKey": "qr-ljp-code"
+        }
+      ],
+      "sourceNote": "Publication metadata follows the linked paper and official repository."
+    },
+    {
+      "slug": "futurebridge-opd",
+      "brief": {
+        "title": "FutureBridge-OPD",
+        "summary": "Validating teacher guidance through the student's future trajectory before distillation.",
+        "summaryZh": "先观察学生后续轨迹是否改善，再决定保留哪些教师指导用于蒸馏。"
+      },
+      "topic": "papers",
+      "title": "Look Ahead Before You Distill: Future Trajectory Validation of Teacher Guidance for Agentic On-Policy Distillation",
+      "originalTitle": "Look Ahead Before You Distill: Future Trajectory Validation of Teacher Guidance for Agentic On-Policy Distillation",
+      "authors": [
+        {
+          "name": "Chishui Chen",
+          "equalContribution": true
+        },
+        {
+          "name": "Yaoyou Fan",
+          "equalContribution": true
+        },
+        {
+          "name": "Te Sun",
+          "equalContribution": true
+        },
+        {
+          "name": "Yi Yang",
+          "isSelf": true,
+          "equalContribution": true
+        },
+        {
+          "name": "Chenghao Sun"
+        },
+        {
+          "name": "Delin Mao"
+        },
+        {
+          "name": "Hongbo Qiao"
+        },
+        {
+          "name": "Zuowei Zhang"
+        },
+        {
+          "name": "Junxi Wang"
+        },
+        {
+          "name": "Chenxing Sun",
+          "corresponding": true
+        },
+        {
+          "name": "Yangen Hu"
+        },
+        {
+          "name": "Lu Pan"
+        },
+        {
+          "name": "Xuyang Liu"
+        },
+        {
+          "name": "Linfeng Zhang",
+          "corresponding": true
+        }
+      ],
+      "authorSourceKey": "futurebridge-opd-pdf",
+      "relation": "自己的论文",
+      "publishedAt": null,
+      "publication": {
+        "status": "preprint",
+        "venue": "arXiv",
+        "year": 2026,
+        "month": 8,
+        "urlKey": "futurebridge-opd-paper"
+      },
+      "sourceCheckedAt": "2026-11-13",
+      "summary": "FutureBridge-OPD (FTB) validates teacher guidance through the future trajectories it induces in the student. At a state with high teacher-student disagreement, it executes a short teacher bridge and compares student continuations from the original and bridged states. The bridge is retained for distillation only when the resulting continuation is more strongly preferred by the teacher.",
+      "summaryZh": "FutureBridge-OPD（FTB）通过教师指导所引出的学生后续轨迹，判断指导是否值得蒸馏。在师生分歧较大的状态插入短暂的教师引导，并比较原状态与引导后状态下的学生续写；只有后者更符合教师偏好时，才保留该引导用于蒸馏。",
+      "sections": [
+        {
+          "title": "Publication",
+          "paragraphs": [
+            "Preprint available as arXiv:2608.01953. The first version was submitted on August 3, 2026, and the latest listed revision (v2) was submitted on August 5, 2026."
+          ]
+        },
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "In multi-turn agentic on-policy distillation, student errors can accumulate and move later states away from regions where teacher guidance is useful. High teacher-student disagreement identifies promising intervention points, but does not by itself show that an intervention will help. FutureBridge-OPD validates a candidate teacher bridge by examining its effect on subsequent student behavior before retaining it for distillation."
+          ]
+        },
+        {
+          "title": "Evaluation",
+          "paragraphs": [
+            "The paper evaluates FTB on ALFWorld, WebShop, and ScienceWorld. Under the main Qwen3-32B teacher to Qwen3-1.7B student setting, it reports average improvements of 16.6 and 7.6 points over vanilla OPD and TCOD, respectively, with additional experiments across student scales and teacher settings."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "label": "Paper PDF",
+          "urlKey": "futurebridge-opd-pdf"
+        },
+        {
+          "label": "GitHub repository",
+          "urlKey": "futurebridge-opd-code"
+        }
+      ],
+      "sourceNote": "Publication metadata follows the linked paper and official repository."
+    }
+  ],
+  "updates": [
+    {
+      "id": "multilcr-emnlp-publication",
+      "date": "2026-10",
+      "text": "MultiLCR 面向多被告法律案例检索，结合各被告的角色与判决结果进行个体感知推理，而不只比较整案文本相似度。相关论文发表于 EMNLP 2026 主会。",
+      "textEn": "MultiLCR retrieves multi-defendant legal cases by reasoning about each defendant’s role and judgment outcome, beyond case-level textual similarity. The paper is published in the EMNLP 2026 main conference proceedings.",
+      "entrySlug": "multilcr"
+    },
+    {
+      "id": "selskill-findings-publication",
+      "date": "2026-10",
+      "text": "SelSkill 通过任务级与步骤级偏好学习，让 Agent 学会何时调用可复用技能、何时跳过，避免不必要的技能调用。相关论文发表于 Findings of EMNLP 2026。",
+      "textEn": "SelSkill combines episode-level and step-level preference learning to teach agents when to invoke reusable skills and when to skip them. The paper is published in Findings of EMNLP 2026.",
+      "entrySlug": "skill-or-skip"
+    },
+    {
+      "id": "ocsd-arxiv-preprint",
+      "date": "2026-08-05",
+      "text": "OCSD 从后续环境观测中提炼监督信号，通过观测校准的自蒸馏改进 Agent 强化学习中的 token 级更新。预印本已上线 arXiv。",
+      "textEn": "OCSD distills supervision from future environment observations, using observation-calibrated self-distillation to refine token-level updates in agentic reinforcement learning. The preprint is available on arXiv.",
+      "entrySlug": "ocsd"
+    },
+    {
+      "id": "qr-ljp-tkdd-publication",
+      "showOnHome": false,
+      "date": "2026-05-19",
+      "text": "QR-LJP 将涉案金额的定量推理引入司法判决预测，依据法律规则计算犯罪金额，辅助判决与刑期预测。相关论文发表于 ACM TKDD。",
+      "textEn": "QR-LJP brings quantitative reasoning about monetary values into legal judgment prediction, using legally grounded crime amounts to support judgment and prison-term predictions. The paper is published in ACM TKDD.",
+      "entrySlug": "qr-ljp"
+    },
+    {
+      "id": "futurebridge-opd-arxiv-preprint",
+      "date": "2026-08-03",
+      "text": "FutureBridge-OPD 在师生分歧较大的状态引入教师指导，再用学生后续轨迹验证指导是否有效，只保留更符合教师偏好的引导用于蒸馏。预印本已上线 arXiv，代码已开源。",
+      "textEn": "FutureBridge-OPD introduces teacher guidance at high-disagreement states and validates it through subsequent student trajectories, retaining bridges that lead to more teacher-preferred continuations. The preprint is available on arXiv, and the code is open source.",
+      "entrySlug": "futurebridge-opd"
+    },
+    {
+      "id": "lawshift-neurips-acceptance",
+      "date": "2025-09-19",
+      "text": "LawShift 评估法律条文修订下的司法判决预测能力，覆盖 31 类细粒度法条变化，检验模型能否随法律变化调整判断。相关论文获 NeurIPS 2025 Datasets and Benchmarks Track 接收。",
+      "textEn": "LawShift evaluates legal judgment prediction under statutory revisions, covering 31 fine-grained change types to test whether models adapt their judgments when the law changes. The paper was accepted to the NeurIPS 2025 Datasets and Benchmarks Track.",
+      "entrySlug": "lawshift"
+    }
+  ]
+}

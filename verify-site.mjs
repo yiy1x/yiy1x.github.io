@@ -1,0 +1,61 @@
+import assert from 'node:assert/strict';
+import { readFile, stat } from 'node:fs/promises';
+import { resolve, dirname, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createSiteModel, LOCALES, PAGE_KEYS } from './routes.mjs';
+
+const root = dirname(fileURLToPath(import.meta.url));
+const site = resolve(root, 'site');
+const model = createSiteModel(JSON.parse(await readFile(resolve(root, 'content.json'), 'utf8')));
+const pages = new Map();
+const idsByPath = new Map();
+for (const route of model.routes) {
+  const html = await readFile(resolve(site, route.path), 'utf8');
+  pages.set(route.path, html);
+  const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
+  idsByPath.set(route.path, new Set(ids));
+  assert.equal(ids.length, new Set(ids).size, `${route.path}: duplicate IDs`);
+}
+for (const route of model.routes) {
+  const html = pages.get(route.path);
+  assert.ok(html.includes(`data-page-key="${route.key}"`), route.path);
+  assert.ok(html.includes(`<html lang="${route.locale}"`), route.path);
+  assert.equal((html.match(/<h1\b/g) || []).length, 1, route.path);
+  assert.ok(!/127\.0\.0\.1|localhost|\/Users\/|file:\/\/|noindex|<script\b|openreview\.net|orcid\.org/i.test(html), route.path);
+  const navigation = html.match(/<nav class="topic-navigation"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+  assert.ok(navigation, route.path);
+  assert.deepEqual([...navigation.matchAll(/data-route-key="([^"]+)"/g)].map(match => match[1]), model.navigationFor(route.locale));
+  for (const locale of LOCALES) {
+    assert.ok(html.includes(`hreflang="${locale}" href="${model.href(route.key, model.localize(route.key, locale))}"`), route.path);
+  }
+  for (const base of ['https://yiy1x.github.io/', 'https://yiy1x.github.io/example-blog/']) {
+    for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+      const reference = match[1].replaceAll('&amp;', '&');
+      if (/^https?:\/\//.test(reference)) continue;
+      assert.ok(!/^(?:\/|[a-z][a-z0-9+.-]*:)/i.test(reference), reference);
+      const url = new URL(reference, new URL(route.path, base));
+      const basePath = new URL(base).pathname;
+      assert.ok(url.pathname.startsWith(basePath), reference);
+      const relativePath = decodeURIComponent(url.pathname.slice(basePath.length));
+      const target = resolve(site, relativePath);
+      assert.ok(target.startsWith(`${site}${sep}`), reference);
+      assert.ok((await stat(target)).isFile(), `${route.path}: ${reference}`);
+      if (url.hash) assert.ok(idsByPath.get(relativePath)?.has(decodeURIComponent(url.hash.slice(1))), reference);
+    }
+  }
+  const news = [...html.matchAll(/data-update-key="([^"]+)"/g)].map(match => match[1]);
+  if (route.kind === 'home') {
+    assert.deepEqual(news, model.homeUpdates.map(update => update.id));
+    if (model.orderedUpdates.length) assert.ok(html.includes(`data-route-key="${model.localize(PAGE_KEYS.UPDATES, route.locale)}"`));
+  } else if (route.kind === 'updates') {
+    assert.deepEqual(news, model.orderedUpdates.map(update => update.id));
+  } else {
+    assert.equal(news.length, 0);
+  }
+  if (['home', 'archive'].includes(route.kind) || route.kind === 'topic') {
+    const expected = model.orderedEntries.filter(entry => route.kind !== 'topic' || entry.topic === route.topicId).map(entry => `entry:${entry.slug}`);
+    assert.deepEqual([...html.matchAll(/data-entry-key="([^"]+)"/g)].map(match => match[1]), expected);
+  }
+}
+assert.equal(await readFile(resolve(site, 'robots.txt'), 'utf8'), 'User-agent: *\nAllow: /\n');
+console.log(`Validated ${pages.size} pages, bilingual routes, news, paper order, and all internal links.`);
