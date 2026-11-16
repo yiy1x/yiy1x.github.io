@@ -3,11 +3,13 @@ import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createSiteModel, PAGE_KEYS, LOCALES, topicKey, entryKey, entryTitle, safeUrl } from './routes.mjs';
 import { copyFor, summaryFor } from './i18n.mjs';
+import { analyticsSettings, analyticsPath, ANALYTICS_PRIVACY_URL, ANALYTICS_SCRIPT_URL } from './analytics.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const output = resolve(root, 'site');
 const model = createSiteModel(JSON.parse(await readFile(resolve(root, 'content.json'), 'utf8')));
 const { content } = model;
+const analytics = analyticsSettings(JSON.parse(await readFile(resolve(root, 'analytics.json'), 'utf8')));
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -76,6 +78,8 @@ function page({ pageKey, title, body, description }) {
   const labels = copyFor(route.locale);
   const name = route.locale === 'en' ? content.name : content.nameZh;
   const siteTitle = route.locale === 'en' ? content.titleEn : content.title;
+  const canonicalPath = model.route(model.localize(pageKey, route.locale)).path;
+  const analyticsTag = analytics ? `<script defer src="${escapeHtml(model.asset(pageKey, 'analytics.js'))}" data-analytics-origin="${escapeHtml(analytics.origin)}" data-analytics-endpoint="${escapeHtml(analytics.endpoint)}" data-analytics-script="${ANALYTICS_SCRIPT_URL}" data-analytics-path="${analyticsPath(canonicalPath)}"></script>` : '';
   return `<!doctype html>
 <html lang="${route.locale}" data-page-key="${escapeHtml(pageKey)}" data-content-key="${escapeHtml(route.pageKey)}"${route.topicId ? ` data-topic-key="${escapeHtml(model.localize(topicKey(route.topicId), route.locale))}"` : ''}>
 <head>
@@ -86,6 +90,7 @@ function page({ pageKey, title, body, description }) {
   <link rel="stylesheet" href="${escapeHtml(model.asset(pageKey, 'styles.css'))}">
   ${route.canonicalKey ? `<link rel="canonical" href="${escapeHtml(model.href(pageKey, model.localize(pageKey, route.locale)))}">` : ''}
   ${LOCALES.map(locale => `<link rel="alternate" hreflang="${locale}" href="${escapeHtml(model.href(pageKey, model.localize(pageKey, locale)))}">`).join('\n  ')}
+  ${analyticsTag}
 </head>
 <body${route.kind === 'home' ? ' class="home-page"' : ''}>
   <a class="skip" href="#content">${labels.skip}</a>
@@ -105,7 +110,7 @@ function page({ pageKey, title, body, description }) {
         <p class="profile-links">${externalLink(content.github, 'GitHub')}</p>
       </aside>
     </div>
-    <footer class="footer"><p>${escapeHtml(siteTitle)}</p></footer>
+    <footer class="footer"><p>${escapeHtml(siteTitle)}</p>${analytics ? `<p class="analytics-notice">${labels.analyticsNotice} ${externalLink(ANALYTICS_PRIVACY_URL, labels.analyticsPrivacy)}</p>` : ''}</footer>
   </div>
 </body>
 </html>
@@ -203,6 +208,7 @@ const artifacts = new Map([
   ...pages,
   ['styles.css', await readFile(resolve(root, 'styles.css'), 'utf8')],
   ['robots.txt', 'User-agent: *\nAllow: /\n'],
+  ...(analytics ? [['analytics.js', await readFile(resolve(root, 'analytics.js'), 'utf8')]] : []),
 ]);
 
 async function checkExisting(directory) {

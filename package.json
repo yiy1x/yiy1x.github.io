@@ -5,6 +5,6 @@
   "engines": { "node": ">=22" },
   "scripts": {
     "build": "node build.mjs",
-    "test": "node verify-site.mjs"
+    "test": "node verify-site.mjs && node --test analytics.test.mjs"
   }
 }

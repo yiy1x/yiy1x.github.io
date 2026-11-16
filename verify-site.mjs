@@ -3,10 +3,12 @@ import { readFile, stat } from 'node:fs/promises';
 import { resolve, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createSiteModel, LOCALES, PAGE_KEYS } from './routes.mjs';
+import { analyticsSettings, analyticsPath, ANALYTICS_PRIVACY_URL, ANALYTICS_SCRIPT_URL } from './analytics.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const site = resolve(root, 'site');
 const model = createSiteModel(JSON.parse(await readFile(resolve(root, 'content.json'), 'utf8')));
+const analytics = analyticsSettings(JSON.parse(await readFile(resolve(root, 'analytics.json'), 'utf8')));
 const pages = new Map();
 const idsByPath = new Map();
 for (const route of model.routes) {
@@ -21,7 +23,17 @@ for (const route of model.routes) {
   assert.ok(html.includes(`data-page-key="${route.key}"`), route.path);
   assert.ok(html.includes(`<html lang="${route.locale}"`), route.path);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, route.path);
-  assert.ok(!/127\.0\.0\.1|localhost|\/Users\/|file:\/\/|noindex|<script\b|openreview\.net|orcid\.org/i.test(html), route.path);
+  assert.ok(!/127\.0\.0\.1|localhost|\/Users\/|file:\/\/|noindex|openreview\.net|orcid\.org/i.test(html), route.path);
+  const scripts = html.match(/<script\b[^>]*>[\s\S]*?<\/script>/gi) || [];
+  if (analytics) {
+    const path = model.route(model.localize(route.key, route.locale)).path;
+    assert.deepEqual(scripts, [`<script defer src="${model.asset(route.key, 'analytics.js')}" data-analytics-origin="${analytics.origin}" data-analytics-endpoint="${analytics.endpoint}" data-analytics-script="${ANALYTICS_SCRIPT_URL}" data-analytics-path="${analyticsPath(path)}"></script>`], route.path);
+    assert.ok(html.includes(`href="${ANALYTICS_PRIVACY_URL}"`), route.path);
+    assert.ok(html.includes('class="analytics-notice"'), route.path);
+  } else {
+    assert.equal(scripts.length, 0, route.path);
+    assert.ok(!html.includes('class="analytics-notice"'), route.path);
+  }
   const navigation = html.match(/<nav class="topic-navigation"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
   assert.ok(navigation, route.path);
   assert.deepEqual([...navigation.matchAll(/data-route-key="([^"]+)"/g)].map(match => match[1]), model.navigationFor(route.locale));
