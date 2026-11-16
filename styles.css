@@ -35,7 +35,7 @@ li { padding-left: 2px; margin: 8px 0; }
 .topic-navigation a:hover { text-decoration: underline; }
 .topic-navigation [aria-current] { color: var(--ink); font-weight: 700; text-decoration: underline; }
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) 210px; grid-template-areas: "main about"; column-gap: 54px; align-items: start; padding: 26px 0 42px; }
-.home-page .layout { grid-template-columns: minmax(0, 1fr) 300px; grid-template-areas: "main updates" "main about"; grid-template-rows: auto 1fr; column-gap: 42px; }
+.home-page .layout { grid-template-columns: minmax(0, 1fr) 300px; grid-template-areas: "updates updates" "main about"; grid-template-rows: auto 1fr; column-gap: 42px; }
 main { grid-area: main; min-width: 0; padding: 0 8px; }
 .about { grid-area: about; }
 .updates { grid-area: updates; min-width: 0; margin-bottom: 28px; }
@@ -54,6 +54,11 @@ main { grid-area: main; min-width: 0; padding: 0 8px; }
 .update-list li + li { margin-top: 20px; }
 .update-list p { margin: 0; }
 .updates li p { font-size: 15px; line-height: 1.85; margin: 0; }
+.home-page .updates { padding-inline: 8px; margin-bottom: 36px; }
+.home-page .updates-heading h2 { font-size: 27px; }
+.home-page .updates li p { font-size: 18px; line-height: 1.8; }
+.home-page .updates .update-topic, .home-page .updates-more { font-size: 14px; }
+.home-page .updates time { font-size: 13px; }
 .updates a, .update-list a { text-decoration: none; }
 .updates a:hover, .update-list a:hover { text-decoration: underline; }
 .update-topic { color: var(--muted); font: 13px/1.8 var(--interface); white-space: nowrap; }
@@ -118,7 +123,7 @@ h2 { font-size: 23px; line-height: 1.6; }
   .topic-navigation ul { gap: 4px 20px; }
   h1 { font-size: 27px; line-height: 1.6; }
   .about, .updates { margin-top: 28px; margin-bottom: 0; }
-  .home-page .updates { margin-top: 0; margin-bottom: 28px; }
+  .home-page .updates { padding-inline: 0; margin-top: 0; margin-bottom: 28px; }
   .side-block { background: var(--panel); }
 }
 
