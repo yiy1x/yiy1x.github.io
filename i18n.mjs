@@ -1,3 +1,5 @@
+import { entryTitle } from './routes.mjs';
+
 const messages = {
   'zh-CN': {
     home: '首页',
@@ -88,4 +90,21 @@ export function summaryFor(entry, locale) {
   return locale === 'zh-CN' && entry.summaryZh
     ? { text: entry.summaryZh, lang: 'zh-CN' }
     : { text: entry.summary, lang: entry.topic === 'papers' ? 'en' : locale };
+}
+
+export function articleFor(entry, locale) {
+  copyFor(locale);
+  const language = entry.topic === 'papers' ? 'en' : locale;
+  return {
+    title: entryTitle(entry, locale),
+    lang: language,
+    summary: language === 'en' ? entry.summary : entry.summaryZh,
+    sections: entry.topic === 'papers' || locale === 'zh-CN' ? entry.sections : entry.sectionsEn,
+    resources: entry.resources.map(resource => ({ ...resource, label: entry.topic !== 'papers' && locale === 'en' ? resource.labelEn : resource.label })),
+  };
+}
+
+export function briefTitleFor(entry, locale) {
+  copyFor(locale);
+  return entry.brief ? (entry.topic !== 'papers' && locale === 'en' ? entry.brief.titleEn : entry.brief.title) : entryTitle(entry, locale);
 }

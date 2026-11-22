@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { resolve, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createSiteModel, LOCALES, PAGE_KEYS } from './routes.mjs';
-import { copyFor } from './i18n.mjs';
+import { createSiteModel, LOCALES, PAGE_KEYS, entryTitle } from './routes.mjs';
+import { copyFor, briefTitleFor } from './i18n.mjs';
 import { analyticsSettings, analyticsPath, ANALYTICS_PRIVACY_URL, ANALYTICS_SCRIPT_URL } from './analytics.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -77,8 +77,14 @@ for (const route of model.routes) {
   }
   if (['home', 'archive'].includes(route.kind) || route.kind === 'topic') {
     const entries = route.kind === 'home' ? model.homeEntries : model.orderedEntries;
-    const expected = entries.filter(entry => route.kind !== 'topic' || entry.topic === route.topicId).map(entry => `entry:${entry.slug}`);
+    const visibleEntries = entries.filter(entry => route.kind !== 'topic' || entry.topic === route.topicId);
+    const expected = visibleEntries.map(entry => `entry:${entry.slug}`);
     assert.deepEqual([...html.matchAll(/data-entry-key="([^"]+)"/g)].map(match => match[1]), expected);
+    for (const entry of visibleEntries) {
+      const title = route.kind === 'home' ? briefTitleFor(entry, route.locale) : entryTitle(entry, route.locale);
+      const escaped = title.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+      assert.ok(html.includes(`>${escaped}</a>`), `${route.path}: translated entry title`);
+    }
   }
 }
 assert.equal(await readFile(resolve(site, 'robots.txt'), 'utf8'), 'User-agent: *\nAllow: /\n');

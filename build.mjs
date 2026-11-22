@@ -2,7 +2,7 @@ import { readFile, writeFile, mkdir, readdir, lstat, mkdtemp, rename, rm } from 
 import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createSiteModel, PAGE_KEYS, LOCALES, topicKey, entryKey, entryTitle, safeUrl } from './routes.mjs';
-import { copyFor, summaryFor } from './i18n.mjs';
+import { copyFor, summaryFor, articleFor, briefTitleFor } from './i18n.mjs';
 import { analyticsSettings, analyticsPath, ANALYTICS_PRIVACY_URL, ANALYTICS_SCRIPT_URL } from './analytics.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -143,15 +143,11 @@ function authorLine(entry) {
   return `<div class="paper-authors" lang="en"><p class="author-list">${authors}</p></div>`;
 }
 
-function subtitle(entry) {
-  return entry.originalTitle === entryTitle(entry) ? '' : `<p class="original-title" lang="en">${escapeHtml(entry.originalTitle)}</p>`;
-}
-
 function entryList(entries, pageKey, showTopic = true) {
   const { locale } = model.route(pageKey);
   return `<ul class="entry-list">${entries.map(entry => {
     const summary = summaryFor(entry, locale);
-    return `<li data-entry-key="${entryKey(entry.slug)}">${showTopic ? `<span class="entry-type">${escapeHtml(topicLabels(entry.topic, locale).name)}</span>` : ''}<span${entry.topic === 'papers' ? ' lang="en"' : ''}>${link(pageKey, entryKey(entry.slug), entryTitle(entry), 'entry-title')}</span>${authorLine(entry)}${publicationDetails(entry)}<p class="entry-summary" lang="${summary.lang}">${escapeHtml(summary.text)}</p>${entry.topic === 'papers' && entry.resources.length ? `<p class="paper-resources" lang="en">${entry.resources.map(resource => externalLink(resource.url, resource.label)).join(' · ')}</p>` : ''}</li>`;
+    return `<li data-entry-key="${entryKey(entry.slug)}">${showTopic ? `<span class="entry-type">${escapeHtml(topicLabels(entry.topic, locale).name)}</span>` : ''}<span${entry.topic === 'papers' ? ' lang="en"' : ''}>${link(pageKey, entryKey(entry.slug), entryTitle(entry, locale), 'entry-title')}</span>${authorLine(entry)}${publicationDetails(entry)}<p class="entry-summary" lang="${summary.lang}">${escapeHtml(summary.text)}</p>${entry.topic === 'papers' && entry.resources.length ? `<p class="paper-resources" lang="en">${entry.resources.map(resource => externalLink(resource.url, resource.label)).join(' · ')}</p>` : ''}</li>`;
   }).join('')}</ul>`;
 }
 
@@ -159,7 +155,7 @@ function overviewList(pageKey) {
   const { locale } = model.route(pageKey);
   return `<ul class="overview-list">${model.homeEntries.map(entry => {
     const summary = entry.brief ? { text: locale === 'en' ? entry.brief.summary : entry.brief.summaryZh, lang: locale } : summaryFor(entry, locale);
-    return `<li data-entry-key="${entryKey(entry.slug)}"><h2>${link(pageKey, entryKey(entry.slug), entry.brief?.title || entryTitle(entry))}</h2><p lang="${summary.lang}">${escapeHtml(summary.text)}</p></li>`;
+    return `<li data-entry-key="${entryKey(entry.slug)}"><h2>${link(pageKey, entryKey(entry.slug), briefTitleFor(entry, locale))}</h2><p lang="${summary.lang}">${escapeHtml(summary.text)}</p></li>`;
   }).join('')}</ul>`;
 }
 
@@ -191,20 +187,21 @@ for (const locale of LOCALES) {
   for (const entry of content.entries) {
     const key = model.localize(entryKey(entry.slug), locale);
     const topic = topicLabels(entry.topic, locale);
-    const sections = entry.sections.map(section => `<section><h2>${escapeHtml(section.title)}</h2>${(section.paragraphs || []).map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}${section.items ? `<ul>${section.items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}</section>`).join('');
+    const article = articleFor(entry, locale);
+    const sections = article.sections.map(section => `<section><h2>${escapeHtml(section.title)}</h2>${(section.paragraphs || []).map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}${section.items ? `<ul>${section.items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}</section>`).join('');
     const related = model.orderedEntries.find(candidate => candidate.slug !== entry.slug && candidate.topic === entry.topic);
     const body = `<p class="breadcrumb">${link(key, PAGE_KEYS.HOME, labels.home)} / ${link(key, topicKey(entry.topic), topic.name)}</p>
     <article data-entry-key="${entryKey(entry.slug)}">
-      <h1${entry.topic === 'papers' ? ' lang="en"' : ''}>${escapeHtml(entryTitle(entry))}</h1>
+      <h1${entry.topic === 'papers' ? ' lang="en"' : ''}>${escapeHtml(article.title)}</h1>
       ${authorLine(entry)}
       ${metadata(entry, key)}
-      ${publicationDetails(entry)}${subtitle(entry)}
-      <div class="article-body"${entry.topic === 'papers' ? ' lang="en"' : ''}><p>${escapeHtml(entry.summary)}</p>${sections}
-        ${entry.resources.length ? `<section><h2>${entry.topic === 'papers' ? 'Resources' : labels.resources}</h2><ul class="resource-list">${entry.resources.map(resource => `<li>${externalLink(resource.url, resource.label)}</li>`).join('')}</ul></section>` : ''}
+      ${publicationDetails(entry)}
+      <div class="article-body" lang="${article.lang}"><p>${escapeHtml(article.summary)}</p>${sections}
+        ${article.resources.length ? `<section><h2>${entry.topic === 'papers' ? 'Resources' : labels.resources}</h2><ul class="resource-list">${article.resources.map(resource => `<li>${externalLink(resource.url, resource.label)}</li>`).join('')}</ul></section>` : ''}
       </div>
     </article>
-    <nav class="article-nav" aria-label="${labels.articleNavigation}">${link(key, topicKey(entry.topic), labels.backToTopic.replace('{topic}', topic.name))}${related ? link(key, entryKey(related.slug), `${labels.readRelated}${entryTitle(related)}`) : ''}</nav>`;
-    addPage(key, entryTitle(entry), body, entry.summary);
+    <nav class="article-nav" aria-label="${labels.articleNavigation}">${link(key, topicKey(entry.topic), labels.backToTopic.replace('{topic}', topic.name))}${related ? link(key, entryKey(related.slug), `${labels.readRelated}${entryTitle(related, locale)}`) : ''}</nav>`;
+    addPage(key, article.title, body, article.summary);
   }
 }
 

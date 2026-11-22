@@ -93,12 +93,14 @@
       "slug": "health-journal",
       "brief": {
         "title": "知己 · 健康手记",
+        "titleEn": "Health Journal",
         "summary": "A local-first personal health journal with traceable records, opt-in AI drafts, and an encrypted mobile document vault.",
         "summaryZh": "把就诊、检查与日常健康记录整理为可追溯的本地档案，辅以可选 AI 草稿和手机加密资料库。"
       },
       "topic": "projects",
-      "title": "知己 · 健康手记 / Health Journal",
-      "originalTitle": "知己 · 健康手记 / Health Journal",
+      "title": "知己 · 健康手记",
+      "titleEn": "Health Journal",
+      "originalTitle": "Health Journal",
       "relation": "个人项目",
       "publishedAt": "2026-11-22",
       "sourceCheckedAt": "2026-11-22",
@@ -106,43 +108,84 @@
       "summaryZh": "个人健康档案与就医准备工具：本地记录、原件追溯、可选 AI 草稿、手机加密资料库。新档案默认空白，AI 结果需人工核对，不用于诊断或开药。",
       "sections": [
         {
-          "title": "项目定位 / Purpose",
+          "title": "项目定位",
           "items": [
-            "用途：整理个人健康资料、记录日常变化，准备就医摘要。 / Organize personal health records, track changes, and prepare information for medical visits.",
-            "形式：中文优先的本地应用，默认从空白档案开始，不预置人物或病历。 / A Chinese-first local application with empty-by-default journals and no prefilled patient records."
+            "用途：整理个人健康资料、记录日常变化，准备就医摘要。",
+            "形式：中文优先的本地应用，默认从空白档案开始，不预置人物或病历。"
           ]
         },
         {
-          "title": "五个特点 / Five key features",
+          "title": "五个特点",
           "items": [
-            "1. 本地档案：集中记录就诊、指标、用药、症状、健康问题与随访，核心功能无需云账号。 / Local records for visits, lab observations, medications, symptoms, health concerns, and follow-ups; core features require no cloud account.",
-            "2. 原件可追溯：保存 PDF、图片和文本，按内容去重，支持多科关联、时间线、指标趋势和就医摘要。 / Traceable originals with content deduplication, department links, timelines, observation trends, and visit summaries.",
-            "3. AI 按次授权：报告整理、餐食与资料问答只生成待核对草稿，发送前预览确认，不自动写入已确认记录。 / Opt-in AI drafts for reports, meals, and record questions, with a preview before each request and no automatic promotion to verified records.",
-            "4. 手机资料库：拍照或导入文件，加密保存与备份；手动交换原件，不是自动全病历同步。 / An encrypted mobile document vault for photos and imports, with backups and manual original-file transfer rather than automatic full-record sync.",
-            "5. 日常饮食记录：保留实际用餐信息，在限制确认后提供一般成人餐单灵感，不提供治疗性膳食处方。 / Actual-meal records and constrained meal inspiration for general adult use, not therapeutic nutrition prescriptions."
+            "本地档案：集中记录就诊、指标、用药、症状、健康问题与随访，核心功能无需云账号。",
+            "原件可追溯：保存 PDF、图片和文本，按内容去重，支持多科关联、时间线、指标趋势和就医摘要。",
+            "AI 按次授权：报告整理、餐食与资料问答只生成待核对草稿，发送前预览确认，不自动写入已确认记录。",
+            "手机资料库：拍照或导入文件，加密保存与备份；手动交换原件，不是自动全病历同步。",
+            "日常饮食记录：保留实际用餐信息，在限制确认后提供一般成人餐单灵感，不提供治疗性膳食处方。"
           ]
         },
         {
-          "title": "技术与隐私 / Technology and privacy",
+          "title": "技术与隐私",
           "items": [
-            "技术栈：Python 标准库、SQLite、原生 HTML/CSS/JavaScript；单人本地使用。 / Python standard library, SQLite, and vanilla web assets for single-user local use.",
-            "模型连接：可选 API 或独立 Codex 连接；云端请求会在确认后发送选定资料，手机端目前不调用模型。 / Optional API or isolated Codex connections send selected information after confirmation; the mobile edition does not call models.",
-            "加密边界：桌面数据库、附件、ZIP 及跨端原件包未做应用层加密；手机库与手机备份加密。 / Desktop data, ZIP backups, and transfer packages lack application-level encryption; mobile vaults and their backups are encrypted.",
-            "部署边界：博客只展示项目，不托管健康资料或开放医疗后台。 / This blog presents the project; it does not host health records or a medical backend."
+            "技术栈：Python 标准库、SQLite、原生 HTML/CSS/JavaScript；单人本地使用。",
+            "模型连接：可选 API 或独立 Codex 连接；云端请求会在确认后发送选定资料，手机端目前不调用模型。",
+            "加密边界：桌面数据库、附件、ZIP 及跨端原件包未做应用层加密；手机库与手机备份加密。",
+            "部署边界：博客只展示项目，不托管健康资料或开放医疗后台。"
           ]
         },
         {
-          "title": "当前阶段与限制 / Current scope and limitations",
+          "title": "当前阶段与限制",
           "items": [
-            "阶段：1.3.1 个人初版；2026-11-22 本地合成测试通过，医学可靠性未经临床验证。 / Personal first edition 1.3.1; local synthetic tests passed on November 22, 2026, not clinical validation.",
-            "待验证：真实模型推理、物理手机体验和跨平台兼容性仍需进一步检查。 / Real-model inference, physical-device experience, and cross-platform compatibility need further checks.",
-            "医疗边界：不确诊、不预测患病概率、不开药、不调整剂量、不排除急症，不替代医生判断。 / No diagnosis, disease-probability prediction, prescribing, dose adjustment, emergency exclusion, or replacement of professional judgment.",
-            "使用原则：摘录与草稿应对照原件核实，重要医疗资料应另存备份。 / Verify extracts and drafts against originals and keep separate backups of important records."
+            "阶段：1.3.1 个人初版；2026-11-22 本地合成测试通过，医学可靠性未经临床验证。",
+            "待验证：真实模型推理、物理手机体验和跨平台兼容性仍需进一步检查。",
+            "医疗边界：不确诊、不预测患病概率、不开药、不调整剂量、不排除急症，不替代医生判断。",
+            "使用原则：摘录与草稿应对照原件核实，重要医疗资料应另存备份。"
+          ]
+        }
+      ],
+      "sectionsEn": [
+        {
+          "title": "Purpose",
+          "items": [
+            "Use: organize personal health records, track changes, and prepare information for medical visits.",
+            "Format: a Chinese-first local application with empty-by-default journals and no prefilled patient records."
+          ]
+        },
+        {
+          "title": "Five key features",
+          "items": [
+            "Local records: visits, lab observations, medications, symptoms, health concerns, and follow-ups; core features require no cloud account.",
+            "Traceable originals: preserve PDFs, images, and text with content deduplication, department links, timelines, observation trends, and visit summaries.",
+            "Opt-in AI: drafts for reports, meals, and record questions, with a preview before each request and no automatic promotion to verified records.",
+            "Mobile document vault: encrypted storage and backups for photos and imports, with manual original-file transfer rather than automatic full-record sync.",
+            "Meal records: actual-meal records and constrained meal inspiration for general adult use, not therapeutic nutrition prescriptions."
+          ]
+        },
+        {
+          "title": "Technology and privacy",
+          "items": [
+            "Stack: Python standard library, SQLite, and vanilla HTML/CSS/JavaScript for single-user local use.",
+            "Model connections: optional API or isolated Codex connections send selected information after confirmation; the mobile edition does not call models.",
+            "Encryption boundaries: desktop data, ZIP backups, and transfer packages lack application-level encryption; mobile vaults and their backups are encrypted.",
+            "Hosting boundaries: this blog presents the project; it does not host health records or a medical backend."
+          ]
+        },
+        {
+          "title": "Current scope and limitations",
+          "items": [
+            "Status: personal first edition 1.3.1; local synthetic tests passed on November 22, 2026, not clinical validation.",
+            "Further checks: real-model inference, physical-device experience, and cross-platform compatibility need further checks.",
+            "Medical boundaries: no diagnosis, disease-probability prediction, prescribing, dose adjustment, emergency exclusion, or replacement of professional judgment.",
+            "Use: verify extracts and drafts against originals and keep separate backups of important records."
           ]
         }
       ],
       "resources": [
-        { "label": "GitHub · 源码与使用说明", "urlKey": "health-journal-code" }
+        {
+          "label": "GitHub · 源码与使用说明",
+          "labelEn": "GitHub · Source and documentation",
+          "urlKey": "health-journal-code"
+        }
       ],
       "sourceNote": "依据交接资料及 1.3.1 源码，于 2026-11-22 核对；本地 164 项 Python 与 95 项 Node 合成测试通过。公开仓库 80 个文件的远端哈希逐一核对一致，未上传个人档案或凭证，未创建 Release。 / Reviewed source and handoff; local synthetic tests passed and all 80 public repository blobs matched the reviewed files."
     },

@@ -4,7 +4,10 @@ export const PAGE_KEYS = Object.freeze({ HOME: 'page:home', ARCHIVE: 'page:archi
 export const LOCALES = Object.freeze(['zh-CN', 'en']);
 export const topicKey = identity => `topic:${identity}`;
 export const entryKey = identity => `entry:${identity}`;
-export const entryTitle = entry => entry.topic === 'papers' ? entry.originalTitle : entry.title;
+export function entryTitle(entry, locale = 'zh-CN') {
+  if (!LOCALES.includes(locale)) throw new Error(`Unknown locale: ${locale}`);
+  return entry.topic === 'papers' ? entry.originalTitle : locale === 'en' ? entry.titleEn : entry.title;
+}
 
 function authorPriority(entry) {
   if (entry.topic !== 'papers') return [3, 0];
@@ -153,10 +156,14 @@ export function createSiteModel(input) {
     if (entries.has(entry.slug)) throw new Error(`Duplicate entry ID: ${entry.slug}`);
     if (!topics.has(entry.topic)) throw new Error(`Unknown topic: ${entry.topic}`);
     for (const field of ['title', 'originalTitle', 'relation', 'summary', 'sourceNote']) text(entry[field], `entry.${field}`);
+    if (entry.topic !== 'papers') {
+      for (const field of ['titleEn', 'summaryZh']) text(entry[field], `entry.${field}`);
+    }
     if (entry.summaryZh !== undefined) text(entry.summaryZh, 'entry.summaryZh');
     if (entry.brief !== undefined) {
       record(entry.brief, 'entry.brief');
       for (const field of ['title', 'summary', 'summaryZh']) text(entry.brief[field], `entry.brief.${field}`);
+      if (entry.topic !== 'papers') text(entry.brief.titleEn, 'entry.brief.titleEn');
     }
     date(entry.sourceCheckedAt, 'entry.sourceCheckedAt');
     if (entry.publishedAt != null) date(entry.publishedAt, 'entry.publishedAt');
@@ -184,21 +191,25 @@ export function createSiteModel(input) {
       if (month != null && (year == null || !Number.isInteger(month) || month < 1 || month > 12)) throw new Error('Invalid publication month');
       resolveLink(entry.publication, 'url', true);
     }
-    array(entry.sections, 'entry.sections');
-    for (const section of entry.sections) {
-      record(section, 'section');
-      text(section.title, 'section.title');
-      for (const field of ['paragraphs', 'items']) {
-        if (section[field] !== undefined) {
-          array(section[field], `section.${field}`);
-          section[field].forEach(value => text(value, `section.${field}`));
+    for (const sectionField of entry.topic === 'papers' ? ['sections'] : ['sections', 'sectionsEn']) {
+      array(entry[sectionField], `entry.${sectionField}`);
+      for (const section of entry[sectionField]) {
+        record(section, sectionField);
+        text(section.title, `${sectionField}.title`);
+        for (const field of ['paragraphs', 'items']) {
+          if (section[field] !== undefined) {
+            array(section[field], `${sectionField}.${field}`);
+            section[field].forEach(value => text(value, `${sectionField}.${field}`));
+          }
         }
       }
     }
+    if (entry.topic !== 'papers' && Boolean(entry.sections.length) !== Boolean(entry.sectionsEn.length)) throw new Error('Both article languages must include body sections');
     array(entry.resources, 'entry.resources');
     for (const resource of entry.resources) {
       record(resource, 'resource');
       text(resource.label, 'resource.label');
+      if (entry.topic !== 'papers') text(resource.labelEn, 'resource.labelEn');
       resolveLink(resource, 'url');
     }
     entries.set(entry.slug, entry);
