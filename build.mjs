@@ -78,6 +78,7 @@ function page({ pageKey, title, body, description }) {
   const labels = copyFor(route.locale);
   const name = route.locale === 'en' ? content.name : content.nameZh;
   const siteTitle = route.locale === 'en' ? content.titleEn : content.title;
+  const friends = content.friendLinks.length ? `<aside class="side-block friend-links" aria-labelledby="friend-links-heading"><h2 id="friend-links-heading">${labels.friendLinks}</h2><ul>${content.friendLinks.map(friend => `<li>${externalLink(friend.url, friend.label)}</li>`).join('')}</ul></aside>` : '';
   const canonicalPath = model.route(model.localize(pageKey, route.locale)).path;
   const analyticsTag = analytics ? `<script defer src="${escapeHtml(model.asset(pageKey, 'analytics.js'))}" data-analytics-origin="${escapeHtml(analytics.origin)}" data-analytics-endpoint="${escapeHtml(analytics.endpoint)}" data-analytics-script="${ANALYTICS_SCRIPT_URL}" data-analytics-path="${analyticsPath(canonicalPath)}"></script>` : '';
   return `<!doctype html>
@@ -103,12 +104,15 @@ function page({ pageKey, title, body, description }) {
     <div class="layout">
       ${recentUpdates(pageKey)}
       <main id="content" tabindex="-1">${body}</main>
-      <aside class="side-block about" aria-labelledby="about-heading">
-        <h2 id="about-heading">${labels.about}</h2>
-        <p>${escapeHtml(name)} · ${labels.affiliation}</p>
-        <p class="muted">${labels.aboutBody}</p>
-        <p class="profile-links">${externalLink(content.github, 'GitHub')}</p>
-      </aside>
+      <div class="sidebar">
+        <aside class="side-block about" aria-labelledby="about-heading">
+          <h2 id="about-heading">${labels.about}</h2>
+          <p>${escapeHtml(name)} · ${labels.affiliation}</p>
+          <p class="muted">${labels.aboutBody}</p>
+          <p class="profile-links">${externalLink(content.github, 'GitHub')}</p>
+        </aside>
+        ${friends}
+      </div>
     </div>
     <footer class="footer"><p>${escapeHtml(siteTitle)}</p>${analytics ? `<p class="analytics-notice">${labels.analyticsNotice} ${externalLink(ANALYTICS_PRIVACY_URL, labels.analyticsPrivacy)}</p>` : ''}</footer>
   </div>
@@ -153,7 +157,7 @@ function entryList(entries, pageKey, showTopic = true) {
 
 function overviewList(pageKey) {
   const { locale } = model.route(pageKey);
-  return `<ul class="overview-list">${model.orderedEntries.map(entry => {
+  return `<ul class="overview-list">${model.homeEntries.map(entry => {
     const summary = entry.brief ? { text: locale === 'en' ? entry.brief.summary : entry.brief.summaryZh, lang: locale } : summaryFor(entry, locale);
     return `<li data-entry-key="${entryKey(entry.slug)}"><h2>${link(pageKey, entryKey(entry.slug), entry.brief?.title || entryTitle(entry))}</h2><p lang="${summary.lang}">${escapeHtml(summary.text)}</p></li>`;
   }).join('')}</ul>`;

@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { runInNewContext } from 'node:vm';
 import { analyticsSettings, analyticsPath, ANALYTICS_SCRIPT_URL } from './analytics.mjs';
+import { createSiteModel } from './routes.mjs';
 
 const productionOrigin = 'https://yiy1x.github.io';
 const loader = await readFile(new URL('./analytics.js', import.meta.url), 'utf8');
@@ -98,10 +99,11 @@ test('enabled and disabled builds validate all pages without contacting GoatCoun
       await copyFile(new URL(filename, import.meta.url), join(directory, filename));
     }
     const run = filename => execFileSync(process.execPath, [join(directory, filename)], { encoding: 'utf8', timeout: 30000 });
+    const expectedPages = createSiteModel(JSON.parse(await readFile(join(directory, 'content.json'), 'utf8'))).routes.length;
     for (const siteCode of ['test-account', null]) {
       await writeFile(join(directory, 'analytics.json'), JSON.stringify({ siteCode, productionOrigin }));
       run('build.mjs');
-      assert.match(run('verify-site.mjs'), /Validated 28 pages/);
+      assert.ok(run('verify-site.mjs').startsWith(`Validated ${expectedPages} pages,`));
       const home = await readFile(join(directory, 'site/index.html'), 'utf8');
       assert.equal(home.includes('<script'), siteCode !== null);
       assert.equal(home.includes('analytics-notice'), siteCode !== null);

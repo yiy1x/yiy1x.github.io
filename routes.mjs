@@ -90,6 +90,16 @@ export function createSiteModel(input) {
     owner[field] = links.get(owner[keyField]);
   }
   resolveLink(content, 'github');
+  if (content.friendLinks === undefined) content.friendLinks = [];
+  array(content.friendLinks, 'friendLinks');
+  const friendKeys = new Set();
+  for (const friend of content.friendLinks) {
+    record(friend, 'friendLink');
+    text(friend.label, 'friendLink.label');
+    resolveLink(friend, 'url');
+    if (friendKeys.has(friend.urlKey)) throw new Error(`Duplicate friend link: ${friend.urlKey}`);
+    friendKeys.add(friend.urlKey);
+  }
   for (const field of ['topics', 'entries', 'updates']) array(content[field], field);
   if (content.paperOrder === undefined) content.paperOrder = [];
   array(content.paperOrder, 'paperOrder');
@@ -208,6 +218,8 @@ export function createSiteModel(input) {
     if (firstRank !== undefined || secondRank !== undefined) return (firstRank ?? paperRanks.size) - (secondRank ?? paperRanks.size);
     return compareEntries(first, second);
   });
+  const homeEntries = [...content.entries].sort((first, second) =>
+    entryDate(second).localeCompare(entryDate(first)) || compareEntries(first, second));
 
   if (content.featuredEntry != null && !entries.has(content.featuredEntry)) throw new Error(`Unknown featured entry: ${content.featuredEntry}`);
   const updateIds = new Set();
@@ -263,6 +275,7 @@ export function createSiteModel(input) {
   return Object.freeze({
     content,
     orderedEntries: Object.freeze(orderedEntries),
+    homeEntries: Object.freeze(homeEntries),
     orderedUpdates: Object.freeze(orderedUpdates),
     homeUpdates: Object.freeze(homeUpdates),
     routes: Object.freeze([...routes.values()]),

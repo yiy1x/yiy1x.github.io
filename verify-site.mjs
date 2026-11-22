@@ -3,6 +3,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { resolve, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createSiteModel, LOCALES, PAGE_KEYS } from './routes.mjs';
+import { copyFor } from './i18n.mjs';
 import { analyticsSettings, analyticsPath, ANALYTICS_PRIVACY_URL, ANALYTICS_SCRIPT_URL } from './analytics.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -23,6 +24,16 @@ for (const route of model.routes) {
   assert.ok(html.includes(`data-page-key="${route.key}"`), route.path);
   assert.ok(html.includes(`<html lang="${route.locale}"`), route.path);
   assert.equal((html.match(/<h1\b/g) || []).length, 1, route.path);
+  const friends = html.match(/<aside class="side-block friend-links"[^>]*>([\s\S]*?)<\/aside>/)?.[1];
+  if (model.content.friendLinks.length) {
+    assert.ok(friends, route.path);
+    assert.ok(friends.includes(`<h2 id="friend-links-heading">${copyFor(route.locale).friendLinks}</h2>`), route.path);
+    assert.ok(html.indexOf('id="about-heading"') < html.indexOf('id="friend-links-heading"'), route.path);
+    const escaped = value => value.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+    assert.deepEqual([...friends.matchAll(/<a href="([^"]+)">([^<]*)<\/a>/g)].map(match => [match[1], match[2]]), model.content.friendLinks.map(friend => [escaped(friend.url), escaped(friend.label)]), route.path);
+  } else {
+    assert.equal(friends, undefined, route.path);
+  }
   assert.ok(!/127\.0\.0\.1|localhost|\/Users\/|file:\/\/|noindex|openreview\.net|orcid\.org/i.test(html), route.path);
   const scripts = html.match(/<script\b[^>]*>[\s\S]*?<\/script>/gi) || [];
   if (analytics) {
@@ -65,7 +76,8 @@ for (const route of model.routes) {
     assert.equal(news.length, 0);
   }
   if (['home', 'archive'].includes(route.kind) || route.kind === 'topic') {
-    const expected = model.orderedEntries.filter(entry => route.kind !== 'topic' || entry.topic === route.topicId).map(entry => `entry:${entry.slug}`);
+    const entries = route.kind === 'home' ? model.homeEntries : model.orderedEntries;
+    const expected = entries.filter(entry => route.kind !== 'topic' || entry.topic === route.topicId).map(entry => `entry:${entry.slug}`);
     assert.deepEqual([...html.matchAll(/data-entry-key="([^"]+)"/g)].map(match => match[1]), expected);
   }
 }

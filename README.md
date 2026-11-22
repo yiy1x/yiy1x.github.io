@@ -21,7 +21,9 @@ Open http://127.0.0.1:8876/ for Chinese or http://127.0.0.1:8876/en/ for English
 - Edit `content.json`, not the generated HTML in `site/`.
 - `links` is the central registry for external URLs. Reuse `urlKey`, `githubKey`, and `authorSourceKey` instead of repeating URLs.
 - Article slugs and topic IDs are stable URL identities. Titles and labels can change without changing those identities.
-- `paperOrder` controls the shared order on the home page, topic overview, and paper lists. Entries not listed there follow year and author-priority ordering.
+- The home page's research overview uses `homeEntries`, ordered by date descending so recent work appears first. It uses `publishedAt`, falling back to publication year/month; undated entries appear last.
+- `paperOrder` controls priority in the topic overview and paper lists, not the home page. Entries not listed there follow year and author-priority ordering.
+- `friendLinks` contains labels and shared `urlKey` references for the Friends section below About in both languages.
 - Each paper keeps its original English title, ordered authors, and detail body. `isSelf` highlights Yi Yang; verified `equalContribution` and `corresponding` flags render contribution markers.
 - Optional `brief` fields supply the short homepage introduction. `summaryZh` and `summary` supply Chinese and English list summaries.
 - `updates` contains dated, bilingual news. An `entrySlug` automatically supplies its category; external or plain-text updates may use `topicId`.
