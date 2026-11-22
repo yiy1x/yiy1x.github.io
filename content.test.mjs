@@ -65,7 +65,7 @@ test('home entries put recent work first independently of the pinned paper order
   assert.deepEqual(model.orderedEntries.filter(entry => input.paperOrder.includes(entry.slug)).map(entry => entry.slug), input.paperOrder);
 });
 
-test('home ordering handles tied, partial and missing dates deterministically', () => {
+test('home ordering handles partial dates and shows later-added same-day entries first', () => {
   const input = structuredClone(content);
   const project = input.entries.find(entry => entry.topic === 'projects');
   const paper = input.entries.find(entry => entry.topic === 'papers');
@@ -82,7 +82,25 @@ test('home ordering handles tied, partial and missing dates deterministically', 
   const expected = ['same-day-a', 'same-day-z', 'month-only', 'year-only', 'undated'];
   assert.deepEqual(createSiteModel(input).homeEntries.map(entry => entry.slug), expected);
   input.entries.reverse();
-  assert.deepEqual(createSiteModel(input).homeEntries.map(entry => entry.slug), expected);
+  assert.deepEqual(createSiteModel(input).homeEntries.map(entry => entry.slug), ['same-day-z', 'same-day-a', 'month-only', 'year-only', 'undated']);
+});
+
+test('project manager uses separate translations and leads same-day homepage additions', () => {
+  const model = createSiteModel(content);
+  const project = model.entry('project-manager');
+  assert.ok(project, 'Project Manager must be included');
+  assert.equal(project.topic, 'projects');
+  assert.equal(project.title, '项目总管');
+  assert.equal(project.titleEn, 'Project Manager');
+  assert.equal(model.route(entryKey(project.slug)).path, 'posts/project-manager/index.html');
+  assert.equal(model.route(model.localize(entryKey(project.slug), 'en')).path, 'en/posts/project-manager/index.html');
+  const update = model.orderedUpdates.find(update => update.entrySlug === project.slug);
+  assert.equal(update.topicId, 'projects');
+  assert.ok(update.text && update.textEn);
+  assert.ok(model.homeEntries.indexOf(project) < model.homeEntries.indexOf(model.entry('health-journal')));
+  const next = structuredClone(content);
+  next.entries.push({ ...structuredClone(next.entries.find(entry => entry.slug === project.slug)), slug: 'next-same-day-project' });
+  assert.equal(createSiteModel(next).homeEntries[0].slug, 'next-same-day-project');
 });
 
 test('projects select complete locale-specific copy while sharing identity and resource URLs', () => {

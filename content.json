@@ -181,13 +181,101 @@
         }
       ],
       "resources": [
-        {
-          "label": "GitHub · 源码与使用说明",
-          "labelEn": "GitHub · Source and documentation",
-          "urlKey": "health-journal-code"
-        }
+        { "label": "GitHub · 源码与使用说明", "labelEn": "GitHub · Source and documentation", "urlKey": "health-journal-code" }
       ],
       "sourceNote": "依据交接资料及 1.3.1 源码，于 2026-11-22 核对；本地 164 项 Python 与 95 项 Node 合成测试通过。公开仓库 80 个文件的远端哈希逐一核对一致，未上传个人档案或凭证，未创建 Release。 / Reviewed source and handoff; local synthetic tests passed and all 80 public repository blobs matched the reviewed files."
+    },
+    {
+      "slug": "project-manager",
+      "brief": {
+        "title": "项目总管",
+        "titleEn": "Project Manager",
+        "summary": "Track AI-assisted projects with concise next steps, live request status, and milestone timelines in one local dashboard.",
+        "summaryZh": "把分散的 AI 项目整理成本地看板，用行动卡、实时请求状态和阶段时间线快速接着做。"
+      },
+      "topic": "projects",
+      "title": "项目总管",
+      "titleEn": "Project Manager",
+      "originalTitle": "Project Manager: a local dashboard for AI-assisted work",
+      "relation": "个人项目",
+      "publishedAt": "2026-11-22",
+      "sourceCheckedAt": "2026-11-22",
+      "summary": "A local-first dashboard that brings Codex and Claude Code projects into one place: current progress, next actions, unresolved questions, and milestone history.",
+      "summaryZh": "面向 Codex 和 Claude Code 的本地项目看板：集中跟进、实时状态、阶段时间线、结构化行动卡和可选自动回读。帮助记清做到哪了、下一步做什么、还有什么待确认；结项始终由用户决定。",
+      "sections": [
+        {
+          "title": "解决什么问题",
+          "paragraphs": [
+            "多个 AI 聊天同时推进时，最难的不是再开一个聊天，而是记清每个项目做到哪了、哪些结果尚未验证、下一次该从哪里继续。项目总管把这些信息整理成短句卡片和阶段时间线。"
+          ]
+        },
+        {
+          "title": "五个特点",
+          "items": [
+            "集中跟进：只管理明确加入白名单的项目与聊天，按跟进中、已完成、暂不跟进组织；支持筛选、提醒和置顶，不自动结项。",
+            "实时请求状态：Codex 与 Claude 共用猫老大只读 trace 增量订阅，通过 SSE 更新页面；不靠重新请求模型来探测状态，断线时不保留虚假的进行中标记。",
+            "阶段时间线：用短结论和分项要点记录想法、调研、决策、实现、验证与阻塞，保留原始详情和操作留痕。",
+            "结构化行动卡：集中显示目标、进度、下一步与待确认事项；长原文折叠保留。Claude 记录可按项目、标题及正文检索。",
+            "可选自动回读：默认关闭；开启后，只在跟进中的 Codex 聊天整轮结束时分析增量，保留证据与游标，失败不覆盖旧结果。Claude 暂不支持自动回读。"
+          ]
+        },
+        {
+          "title": "使用与隐私",
+          "items": [
+            "技术栈：Python 标准库、SQLite、原生 JavaScript，无第三方运行依赖或前端打包流程；面向 macOS / Linux，Windows 使用 WSL。",
+            "先体验：提供完全虚构的独立演示，不读取本机聊天、不连接网关、不调用模型；演示与真实数据目录不能混用。",
+            "外发边界：状态订阅不调用模型；主动开启自动回读后，所选聊天文本会发送给现有 Codex 配置的模型服务，可能产生费用。",
+            "部署边界：Python 服务仅在个人设备的回环地址运行；GitHub Pages 只展示项目介绍，不运行后端，也不暴露真实看板。"
+          ]
+        },
+        {
+          "title": "兼容范围与限制",
+          "items": [
+            "请求结束、对话整轮结束、用户验收结项是三个独立状态；HTTP 成功不能当作项目完成。",
+            "当前 Codex 适配器依赖本地数据库与 rollout 格式，并筛选 catboss 接入的聊天；Claude 适配器读取本地 JSONL。产品升级后可能需要适配，不承诺支持所有版本或云端会话。",
+            "项目提供猫老大接口适配器，不包含网关服务、路由账号、密钥或私人聊天。未进行外部安全认证，不适合作为多用户公网服务。",
+            "源码公开发布尚未确认，当前准备的源码快照未附加开源许可证；本页先介绍项目能力，不提供下载入口。"
+          ]
+        }
+      ],
+      "sectionsEn": [
+        {
+          "title": "Why I built it",
+          "paragraphs": [
+            "When several AI-assisted projects run in parallel, it becomes difficult to remember what changed and where to resume. This dashboard keeps progress, decisions, pending checks, and next actions together."
+          ]
+        },
+        {
+          "title": "Five key features",
+          "items": [
+            "Explicit tracking: manage only allowlisted projects and conversations in active, completed, or untracked queues, with filters, reminders, and pinning. Completion always requires the user.",
+            "Live request status: Codex and Claude share an incremental read-only CatBoss trace subscription, streamed to the page via SSE. Status checks do not call models, and disconnected state is not presented as a live request.",
+            "Milestone timelines: concise conclusions and bullet points cover ideas, research, decisions, implementation, validation, and blockers while retaining original detail and operation history.",
+            "Structured action cards: goals, progress, next steps, and pending decisions stay together; long source text is preserved in collapsible sections. Claude records can be searched by project, title, and body.",
+            "Optional reviews: disabled by default. Once enabled, incremental reviews run only after completed turns in tracked Codex conversations, preserving evidence and cursors without replacing old results on failure. Claude auto-review is not supported."
+          ]
+        },
+        {
+          "title": "Usage and privacy",
+          "items": [
+            "Stack: Python standard library, SQLite, and vanilla JavaScript, with no third-party runtime dependencies or frontend build step. Targets macOS and Linux; Windows users use WSL.",
+            "Try it first: a separate fictional demo reads no local conversations, connects to no gateway, and calls no model. Demo and real-data directories cannot be mixed.",
+            "Data sharing: status subscriptions do not call models. Opt-in reviews send selected conversation text to the model provider configured in Codex and may incur charges.",
+            "Hosting: the Python service runs on a personal device's loopback interface. GitHub Pages presents the project; it does not run the backend or expose the private dashboard."
+          ]
+        },
+        {
+          "title": "Compatibility and limitations",
+          "items": [
+            "Request completion, conversation-turn completion, and user acceptance are separate states. HTTP success is not project completion.",
+            "The Codex adapter depends on local databases and rollout formats and selects conversations using the catboss provider. The Claude adapter reads local JSONL files. Product upgrades may require adaptation; not all versions or cloud conversations are supported.",
+            "The project includes the CatBoss adapter, not the gateway service, routing accounts, keys, or private conversations. It has no external security certification and is not a public multi-user service.",
+            "Public source availability is not yet confirmed, and the prepared source snapshot has no open-source license. This page introduces the project without a download link."
+          ]
+        }
+      ],
+      "resources": [],
+      "sourceNote": "2026-11-22 核对发布快照 d7d25e33f0cbf3e787f49a30adc0a9735018d166 的 36 个跟踪文件、README、接口说明及虚构演示截图。描述不代表真实私人看板状态或模型效果；公开仓库与部署须以实际发布结果为准。 / Based on the reviewed 36-file release snapshot, README, adapter documentation, and fictional screenshot; not private dashboard data or a claim of model effectiveness."
     },
     {
       "slug": "ocsd",
@@ -819,6 +907,13 @@
       "text": "个人健康助理项目「知己 · 健康手记」源码已公开：以可追溯的本地档案整理就诊、检查与症状，结合按次授权的 AI 草稿和手机加密资料库，帮助准备就医信息；不用于诊断、开药或替代医生判断。",
       "textEn": "Published the source of Health Journal, a personal health assistant that organizes visits, reports, and symptoms in traceable local records, with opt-in AI drafts and an encrypted mobile document vault. It helps prepare information for medical visits, not diagnose, prescribe, or replace professional judgment.",
       "entrySlug": "health-journal"
+    },
+    {
+      "id": "project-manager-introduction",
+      "date": "2026-11-22",
+      "text": "新增「项目总管」介绍：把 Codex 与 Claude Code 中分散的工作整理成本地看板，用实时请求状态、阶段时间线和结构化行动卡记录进度与下一步。可选自动回读默认关闭，项目是否完成始终由用户确认。",
+      "textEn": "Added Project Manager, a local dashboard that organizes work across Codex and Claude Code with live request status, milestone timelines, and structured next-action cards. Optional reviews are disabled by default, and project completion always requires user confirmation.",
+      "entrySlug": "project-manager"
     },
     {
       "id": "multilcr-emnlp-publication",

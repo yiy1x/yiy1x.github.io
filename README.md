@@ -21,7 +21,7 @@ Open http://127.0.0.1:8876/ for Chinese or http://127.0.0.1:8876/en/ for English
 - Edit `content.json`, not the generated HTML in `site/`.
 - `links` is the central registry for external URLs. Reuse `urlKey`, `githubKey`, and `authorSourceKey` instead of repeating URLs.
 - Article slugs and topic IDs are stable URL identities. Titles and labels can change without changing those identities.
-- The home page's research overview uses `homeEntries`, ordered by date descending so recent work appears first. It uses `publishedAt`, falling back to publication year/month; undated entries appear last.
+- The home page's research overview uses `homeEntries`, ordered by date descending so recent work appears first. It uses `publishedAt`, falling back to publication year/month; undated entries appear last. Within the same date, later entries in `content.entries` appear first: append new articles so same-day additions lead without changing dates or IDs.
 - `paperOrder` controls priority in the topic overview and paper lists, not the home page. Entries not listed there follow year and author-priority ordering.
 - `friendLinks` contains labels and shared `urlKey` references for the Friends section below About in both languages.
 - Each paper keeps its original English title, ordered authors, and detail body. `isSelf` highlights Yi Yang; verified `equalContribution` and `corresponding` flags render contribution markers.

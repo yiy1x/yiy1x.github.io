@@ -229,8 +229,8 @@ export function createSiteModel(input) {
     if (firstRank !== undefined || secondRank !== undefined) return (firstRank ?? paperRanks.size) - (secondRank ?? paperRanks.size);
     return compareEntries(first, second);
   });
-  const homeEntries = [...content.entries].sort((first, second) =>
-    entryDate(second).localeCompare(entryDate(first)) || compareEntries(first, second));
+  const homeEntries = [...content.entries].reverse().sort((first, second) =>
+    entryDate(second).localeCompare(entryDate(first)));
 
   if (content.featuredEntry != null && !entries.has(content.featuredEntry)) throw new Error(`Unknown featured entry: ${content.featuredEntry}`);
   const updateIds = new Set();
