@@ -8,6 +8,7 @@
     "github-profile": "https://github.com/yiy1x",
     "friend-eaglebear2002": "https://eaglebear2002.github.io/",
     "health-journal-code": "https://github.com/yiy1x/health-journal",
+    "project-manager-code": "https://github.com/yiy1x/project-manager",
     "ocsd-paper": "https://arxiv.org/abs/2608.04788",
     "ocsd-pdf": "https://arxiv.org/pdf/2608.04788",
     "ocsd-code": "https://github.com/yiy1x/OCSD",
@@ -199,7 +200,7 @@
       "originalTitle": "Project Manager: a local dashboard for AI-assisted work",
       "relation": "个人项目",
       "publishedAt": "2026-11-22",
-      "sourceCheckedAt": "2026-11-22",
+      "sourceCheckedAt": "2026-11-23",
       "summary": "A local-first dashboard that brings Codex and Claude Code projects into one place: current progress, next actions, unresolved questions, and milestone history.",
       "summaryZh": "面向 Codex 和 Claude Code 的本地项目看板：集中跟进、实时状态、阶段时间线、结构化行动卡和可选自动回读。帮助记清做到哪了、下一步做什么、还有什么待确认；结项始终由用户决定。",
       "sections": [
@@ -234,7 +235,7 @@
             "请求结束、对话整轮结束、用户验收结项是三个独立状态；HTTP 成功不能当作项目完成。",
             "当前 Codex 适配器依赖本地数据库与 rollout 格式，并筛选 catboss 接入的聊天；Claude 适配器读取本地 JSONL。产品升级后可能需要适配，不承诺支持所有版本或云端会话。",
             "项目提供猫老大接口适配器，不包含网关服务、路由账号、密钥或私人聊天。未进行外部安全认证，不适合作为多用户公网服务。",
-            "源码公开发布尚未确认，当前准备的源码快照未附加开源许可证；本页先介绍项目能力，不提供下载入口。"
+            "源码已发布到 GitHub，包含程序、测试、接口说明和虚构演示截图，不含私人聊天或数据库。当前未附加开源许可证，公开可读不等于通用的复制、修改或再分发许可。"
           ]
         }
       ],
@@ -270,12 +271,14 @@
             "Request completion, conversation-turn completion, and user acceptance are separate states. HTTP success is not project completion.",
             "The Codex adapter depends on local databases and rollout formats and selects conversations using the catboss provider. The Claude adapter reads local JSONL files. Product upgrades may require adaptation; not all versions or cloud conversations are supported.",
             "The project includes the CatBoss adapter, not the gateway service, routing accounts, keys, or private conversations. It has no external security certification and is not a public multi-user service.",
-            "Public source availability is not yet confirmed, and the prepared source snapshot has no open-source license. This page introduces the project without a download link."
+            "The source is published on GitHub with the application, tests, adapter documentation, and a fictional demo screenshot, but no private conversations or databases. It has no open-source license; public readability is not a general grant to copy, modify, or redistribute it."
           ]
         }
       ],
-      "resources": [],
-      "sourceNote": "2026-11-22 核对发布快照 d7d25e33f0cbf3e787f49a30adc0a9735018d166 的 36 个跟踪文件、README、接口说明及虚构演示截图。描述不代表真实私人看板状态或模型效果；公开仓库与部署须以实际发布结果为准。 / Based on the reviewed 36-file release snapshot, README, adapter documentation, and fictional screenshot; not private dashboard data or a claim of model effectiveness."
+      "resources": [
+        { "label": "GitHub · 源码与使用说明", "labelEn": "GitHub · Source and documentation", "urlKey": "project-manager-code" }
+      ],
+      "sourceNote": "2026-11-23 复核准备的发布版及 GitHub 上传文件；本地 103 项 Python、46 项 Node 合成测试通过，不读取真实聊天或调用真实模型。仅发布源码、文档、测试和虚构截图，私人看板与数据库保持本地。 / Reviewed the release copy and uploaded source files; 103 Python and 46 Node synthetic tests passed locally without reading real conversations or calling models. Private dashboard data remains local."
     },
     {
       "slug": "ocsd",
