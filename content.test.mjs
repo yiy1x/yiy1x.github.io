@@ -129,6 +129,38 @@ test('projects select complete locale-specific copy while sharing identity and r
   assert.throws(() => briefTitleFor(paper, 'fr'));
 });
 
+test('news keeps latest same-day additions first without losing history or mutating content', () => {
+  const input = structuredClone(content);
+  input.updates = [
+    { id: 'first-z', date: '2026-11-22', text: '较早添加', textEn: 'Earlier addition' },
+    { id: 'second-a', date: '2026-11-22', text: '较晚添加', textEn: 'Later addition' },
+    { id: 'archive-only', date: '2026-11-23', text: '仅历史', textEn: 'History only', showOnHome: false },
+    { id: 'month-only', date: '2026-10', text: '月份记录', textEn: 'Month-only date' },
+    { id: 'older', date: '2025-12-31', text: '旧记录', textEn: 'Older record' },
+    { id: 'new-year', date: '2027-01-01', text: '跨年', textEn: 'New year' },
+    { id: 'newest', date: '2027-01-02', text: '最新', textEn: 'Newest' },
+  ];
+  const before = structuredClone(input);
+  const model = createSiteModel(input);
+  assert.deepEqual(model.orderedUpdates.map(update => update.id), ['newest', 'new-year', 'archive-only', 'second-a', 'first-z', 'month-only', 'older']);
+  assert.deepEqual(model.homeUpdates.map(update => update.id), ['newest', 'new-year', 'second-a', 'first-z', 'month-only']);
+  assert.deepEqual(input, before);
+  assert.ok(Object.isFrozen(model.orderedUpdates));
+  assert.ok(Object.isFrozen(model.homeUpdates));
+});
+
+test('Project Manager news leads both bilingual homepages and update histories exactly once', async () => {
+  for (const prefix of ['', 'en/']) {
+    for (const page of ['index.html', 'updates/index.html']) {
+      const html = await readFile(new URL(`site/${prefix}${page}`, import.meta.url), 'utf8');
+      const ids = [...html.matchAll(/data-update-key="([^"]+)"/g)].map(match => match[1]);
+      assert.equal(ids[0], 'project-manager-introduction');
+      assert.equal(ids.filter(id => id === 'project-manager-introduction').length, 1);
+      assert.ok(ids.includes('health-journal-introduction'));
+    }
+  }
+});
+
 test('missing or malformed project and note translations fail before generating pages', () => {
   for (const topic of ['projects', 'notes']) {
     for (const mutate of [

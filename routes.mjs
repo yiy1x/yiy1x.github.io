@@ -254,7 +254,7 @@ export function createSiteModel(input) {
     resolveLink(update, 'url', true);
     if (update.url !== undefined && update.entrySlug !== undefined) throw new Error('An update must not have both an entry and an external URL');
   }
-  const orderedUpdates = [...content.updates].sort((first, second) => second.date.localeCompare(first.date) || first.id.localeCompare(second.id));
+  const orderedUpdates = [...content.updates].reverse().sort((first, second) => second.date.localeCompare(first.date));
   const homeUpdates = orderedUpdates.filter(update => update.showOnHome !== false).slice(0, 5);
 
   function route(key) {

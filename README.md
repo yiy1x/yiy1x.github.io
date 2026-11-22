@@ -28,6 +28,7 @@ Open http://127.0.0.1:8876/ for Chinese or http://127.0.0.1:8876/en/ for English
 - Optional `brief` fields supply the short homepage introduction. `summaryZh` and `summary` supply Chinese and English list summaries.
 - Projects and notes use `title` / `titleEn`, `sections` / `sectionsEn`, `brief.title` / `brief.titleEn`, and `resources[].label` / `labelEn` for separate Chinese and English pages. Their detail summaries use `summaryZh` / `summary`. Missing translations fail validation rather than silently mixing languages. Paper titles and detail bodies remain English in both locales; slugs and resource URLs are shared.
 - `updates` contains dated, bilingual news. An `entrySlug` automatically supplies its category; external or plain-text updates may use `topicId`.
+- News uses newest dates first; for matching dates, later entries in `updates` appear first on both the homepage and the full history. Append new updates rather than changing IDs or duplicating records to reorder them.
 - `showOnHome: false` keeps a news item in the complete history but excludes it from the homepage's five-item preview.
 - `i18n.mjs` contains interface translations; `routes.mjs` provides shared bilingual routes. The language switch preserves the current article or topic.
 
