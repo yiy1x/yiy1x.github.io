@@ -6,6 +6,7 @@
   "githubKey": "github-profile",
   "links": {
     "github-profile": "https://github.com/yiy1x",
+    "personal-blog-code": "https://github.com/yiy1x/yiy1x.github.io",
     "friend-eaglebear2002": "https://eaglebear2002.github.io/",
     "health-journal-code": "https://github.com/yiy1x/health-journal",
     "health-journal-daily-doc": "https://github.com/yiy1x/health-journal/blob/main/docs/DAILY_JOURNAL.md",
@@ -203,10 +204,26 @@
         }
       ],
       "resources": [
-        { "label": "GitHub · 源码与使用说明", "labelEn": "GitHub · Source and documentation", "urlKey": "health-journal-code" },
-        { "label": "日常手记说明", "labelEn": "Daily journal guide", "urlKey": "health-journal-daily-doc" },
-        { "label": "Apple 健康导入说明", "labelEn": "Apple Health import guide", "urlKey": "health-journal-apple-doc" },
-        { "label": "版本记录", "labelEn": "Changelog", "urlKey": "health-journal-changelog" }
+        {
+          "label": "GitHub · 源码与使用说明",
+          "labelEn": "GitHub · Source and documentation",
+          "urlKey": "health-journal-code"
+        },
+        {
+          "label": "日常手记说明",
+          "labelEn": "Daily journal guide",
+          "urlKey": "health-journal-daily-doc"
+        },
+        {
+          "label": "Apple 健康导入说明",
+          "labelEn": "Apple Health import guide",
+          "urlKey": "health-journal-apple-doc"
+        },
+        {
+          "label": "版本记录",
+          "labelEn": "Changelog",
+          "urlKey": "health-journal-changelog"
+        }
       ],
       "sourceNote": "2026-11-25 核对公开提交 281c170b3124a3f7bedfcfce485064e488faf81e、README、CHANGELOG 及成功 CI 45560959214，更新素材中的本地验收数字为开发者报告，未在博客任务中重跑或读取私人数据。 / Verified the public v1.5.0 commit, documentation and successful CI; local acceptance figures are attributed to developer notes, not a new run in this blog task."
     },
@@ -317,8 +334,16 @@
         }
       ],
       "resources": [
-        { "label": "GitHub · 源码与使用说明", "labelEn": "GitHub · Source and documentation", "urlKey": "project-manager-code" },
-        { "label": "源码与数据维护说明", "labelEn": "Source and data maintenance guide", "urlKey": "project-manager-maintenance" }
+        {
+          "label": "GitHub · 源码与使用说明",
+          "labelEn": "GitHub · Source and documentation",
+          "urlKey": "project-manager-code"
+        },
+        {
+          "label": "源码与数据维护说明",
+          "labelEn": "Source and data maintenance guide",
+          "urlKey": "project-manager-maintenance"
+        }
       ],
       "sourceNote": "2026-11-25 核对公开提交 edfffac225b253e09c1e272b92c3a8bcba21a7e2、维护文档及成功 CI 45564851234；仅更新博客描述，不修改源项目、不检查私人运行资料。 / Verified the maintenance commit, guide, and successful CI; edited blog copy only, not source projects or private runtime data."
     },
@@ -945,6 +970,104 @@
         }
       ],
       "sourceNote": "Publication metadata follows the linked paper and official repository."
+    },
+    {
+      "slug": "personal-blog",
+      "brief": {
+        "title": "个人技术博客",
+        "titleEn": "Personal Technical Blog",
+        "summary": "A lightweight bilingual blog on GitHub Pages, bringing papers, projects, notes, and research updates together.",
+        "summaryZh": "基于 GitHub Pages 的轻量双语博客，把论文、项目、笔记与最新进展放在一起。"
+      },
+      "topic": "projects",
+      "title": "个人技术博客",
+      "titleEn": "Personal Technical Blog",
+      "originalTitle": "Personal Technical Blog",
+      "relation": "个人项目",
+      "publishedAt": "2026-11-25",
+      "sourceCheckedAt": "2026-11-25",
+      "summary": "The site you are reading is also a small software project: a bilingual technical blog built with a lightweight Node.js static generator and deployed on GitHub Pages. It organizes papers, projects, notes, and news around shared content and stable routes, without requiring a database or server application.",
+      "summaryZh": "这个网站本身也是一个小型软件项目：使用轻量的 Node.js 静态生成器，把论文、项目、笔记和动态组织成独立的中英文页面，通过 GitHub Pages 发布。重点是内容清晰、链接稳定、便于持续维护，不需要数据库或后端服务。",
+      "sections": [
+        {
+          "title": "为什么做这个网站",
+          "paragraphs": [
+            "相比只放个人履历，我更希望有一个持续积累研究与实践的地方：论文说明方法和成果，项目记录实现与使用方式，笔记容纳阅读和调研，首页动态交代最近发生了什么。",
+            "本页介绍的是现有博客的实现方式，不是另一个新建网站。源代码复用同一个博客仓库，内容更新与代码修改都保留版本记录。"
+          ]
+        },
+        {
+          "title": "五个特点",
+          "items": [
+            "轻量静态生成：使用 Node.js 和原生 HTML/CSS，构建不依赖第三方包；阅读和导航不依赖客户端脚本。",
+            "独立双语页面：项目与笔记分别维护中文和英文标题、摘要、正文及资源名称，切换语言仍对应当前文章；论文按既定规则保留英文原名和详情。",
+            "统一内容与链接：文章集中维护，外部地址通过全局链接表复用，内部跳转通过稳定的 slug 和路由 key 生成，避免每页单独维护链接。",
+            "分类与动态分开：论文、项目、笔记各有列表；首页展示简要介绍和最近五条动态，“更多动态”保留完整历史，新近内容优先显示。",
+            "检查后自动部署：GitHub Actions 先构建并检查页面、双语路由和站内链接，成功后再发布生成文件；Pull Request 只验证，不直接更新正式站。"
+          ]
+        },
+        {
+          "title": "内容如何维护",
+          "items": [
+            "当前内容源是 content.json，Markdown 可作为写作和交接素材，但还不会直接导入并渲染成文章。",
+            "新增项目时整理简短首页介绍、独立的中英文详情和可选动态；先本地预览，确认后提交，避免把一篇完整说明堆到首页。",
+            "标题可以调整，已发布的 slug 和资源 key 尽量保持稳定；所有历史论文和动态都保留，不因新增条目而覆盖旧资料。"
+          ]
+        },
+        {
+          "title": "隐私与能力边界",
+          "items": [
+            "提供可关闭的 GoatCounter 访问统计接入；仅在正式域名加载，尊重浏览器隐私偏好，本地预览不请求第三方统计脚本。",
+            "统计用于观察去重访问趋势，不代表精确人数，也不能补回启用前的流量。",
+            "这是公开的静态内容站点，不提供登录、评论、数据库或运行项目后端的能力；不存放私人健康档案、聊天记录或账号凭证。",
+            "自动检查有助于发现缺失翻译和站内链接问题，但不能代替事实核实或保证所有外部链接始终有效。"
+          ]
+        }
+      ],
+      "sectionsEn": [
+        {
+          "title": "Why I built it",
+          "paragraphs": [
+            "Rather than maintaining only a personal resume, I wanted a place for research and practical work to accumulate: papers explain methods and results, projects document implementations, notes capture reading and research, and homepage updates highlight recent changes.",
+            "This page describes the existing blog, not a second website. It uses the same source repository, with version history for both content and code changes."
+          ]
+        },
+        {
+          "title": "Five key features",
+          "items": [
+            "Lightweight static generation: Node.js and vanilla HTML/CSS, with no third-party build packages. Reading and navigation do not depend on client-side scripts.",
+            "Separate language pages: projects and notes have independently maintained Chinese and English titles, summaries, bodies, and resource labels. Switching languages stays on the same article; papers retain their original English titles and details.",
+            "Shared content and links: articles use a central content source, external URLs are registered once, and internal links are generated from stable slugs and route keys instead of being maintained page by page.",
+            "Categories and news: papers, projects, and notes have their own lists. The homepage shows brief introductions and five recent updates, while the full history preserves older news with recent content first.",
+            "Validated deployment: GitHub Actions builds and checks pages, bilingual routes, and internal links before publishing generated files. Pull requests run validation without deploying the live site."
+          ]
+        },
+        {
+          "title": "Maintaining content",
+          "items": [
+            "The current content source is content.json. Markdown can serve as writing and handoff material but is not yet imported and rendered directly as articles.",
+            "A new project gets a brief homepage introduction, separate Chinese and English detail pages, and optional news. Changes are previewed locally before approval and submission, keeping long explanations off the homepage.",
+            "Titles can change while published slugs and resource keys remain stable. Adding an entry does not remove existing papers or news history."
+          ]
+        },
+        {
+          "title": "Privacy and scope",
+          "items": [
+            "Optional GoatCounter integration loads only on the production origin and respects browser privacy preferences. Local previews do not request the third-party analytics script.",
+            "Statistics indicate deduplicated visit trends, not exact people, and cannot recover traffic from before activation.",
+            "This is a public static content site, not a login system, comment service, database, or project-backend host. It stores no private health records, conversations, or account credentials.",
+            "Automated checks help detect missing translations and broken internal links; they do not replace fact checking or guarantee that external resources remain available."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "label": "GitHub · 博客源码",
+          "labelEn": "GitHub · Blog source",
+          "urlKey": "personal-blog-code"
+        }
+      ],
+      "sourceNote": "依据本站构建器、路由与语言模块、统计加载器和部署工作流整理；2026-11-25 为这篇项目介绍的日期，不是网站首次上线日期。 / Based on this site's generator, route and language modules, analytics loader, and deployment workflow. November 25, 2026 is the date of this project introduction, not the site's original launch date."
     }
   ],
   "updates": [
@@ -1011,6 +1134,13 @@
       "text": "知己 · 健康手记更新至 v1.5.0：支持导入 Apple 健康官方 ZIP/XML 文件，用日常手记把活动、休息和实际饮食按天并排呈现，记一餐可直接关联照片，无需先生成餐单或调用 AI。仍是本地记录与就医准备工具，不是实时设备同步或诊断系统。",
       "textEn": "Health Journal is now at source version 1.5.0: import official Apple Health ZIP/XML exports and review activity, rest, and actual meals together by date. Log meals with photo references without a meal plan or AI call. It remains a local record and visit-preparation tool, not live device sync or a diagnostic system.",
       "entrySlug": "health-journal"
+    },
+    {
+      "id": "personal-blog-introduction",
+      "date": "2026-11-25",
+      "text": "新增「个人技术博客」项目介绍，记录这个网站如何通过静态生成、独立双语页面和统一链接管理组织论文、项目与笔记，并利用 GitHub Actions 检查和部署；附现有博客源码入口。",
+      "textEn": "Added Personal Technical Blog, an introduction to how this site uses static generation, separate language pages, and shared links to organize papers, projects, and notes, with GitHub Actions for validation and deployment. The existing blog source is linked from the article.",
+      "entrySlug": "personal-blog"
     }
   ]
 }
