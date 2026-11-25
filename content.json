@@ -665,7 +665,8 @@
           "name": "Shuxian Xie"
         },
         {
-          "name": "Yi Feng"
+          "name": "Yi Feng",
+          "corresponding": true
         },
         {
           "name": "Chuanyi Li"
@@ -728,7 +729,8 @@
           "name": "Zhuo Han"
         },
         {
-          "name": "Yi Feng"
+          "name": "Yi Feng",
+          "corresponding": true
         },
         {
           "name": "Yi Yang",
