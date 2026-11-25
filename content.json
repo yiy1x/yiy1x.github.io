@@ -8,6 +8,10 @@
     "github-profile": "https://github.com/yiy1x",
     "friend-eaglebear2002": "https://eaglebear2002.github.io/",
     "health-journal-code": "https://github.com/yiy1x/health-journal",
+    "health-journal-daily-doc": "https://github.com/yiy1x/health-journal/blob/main/docs/DAILY_JOURNAL.md",
+    "health-journal-apple-doc": "https://github.com/yiy1x/health-journal/blob/main/docs/APPLE_HEALTH.md",
+    "health-journal-changelog": "https://github.com/yiy1x/health-journal/blob/main/CHANGELOG.md",
+    "project-manager-maintenance": "https://github.com/yiy1x/project-manager/blob/main/docs/maintenance.md",
     "project-manager-code": "https://github.com/yiy1x/project-manager",
     "ocsd-paper": "https://arxiv.org/abs/2608.04788",
     "ocsd-pdf": "https://arxiv.org/pdf/2608.04788",
@@ -95,8 +99,8 @@
       "brief": {
         "title": "知己 · 健康手记",
         "titleEn": "Health Journal",
-        "summary": "A local-first personal health journal with traceable records, opt-in AI drafts, and an encrypted mobile document vault.",
-        "summaryZh": "把就诊、检查与日常健康记录整理为可追溯的本地档案，辅以可选 AI 草稿和手机加密资料库。"
+        "summary": "Keep health records, manually imported Apple Health data, and actual meals together in a local daily journal.",
+        "summaryZh": "用本地档案整理就医资料，把 Apple 健康导出记录和实际饮食放在同一天的日常手记中。"
       },
       "topic": "projects",
       "title": "知己 · 健康手记",
@@ -104,25 +108,34 @@
       "originalTitle": "Health Journal",
       "relation": "个人项目",
       "publishedAt": "2026-11-22",
-      "sourceCheckedAt": "2026-11-22",
-      "summary": "Health Journal is a Chinese-first, local-first personal health record application. It keeps source documents and verified records separate from optional AI drafts, with a standalone encrypted mobile document vault and manual original-file transfer. It supports record keeping and preparation for medical visits, not diagnosis or prescribing.",
-      "summaryZh": "个人健康档案与就医准备工具：本地记录、原件追溯、可选 AI 草稿、手机加密资料库。新档案默认空白，AI 结果需人工核对，不用于诊断或开药。",
+      "updatedAt": "2026-11-25",
+      "sourceCheckedAt": "2026-11-25",
+      "summary": "Health Journal is a Chinese-first, local-first personal health record tool. Version 1.5.0 adds a daily journal that places actual meals alongside activity and rest records imported from official Apple Health ZIP/XML exports. Meal logging works without a meal plan or AI call. Traceable medical records, opt-in AI drafts, and a separate encrypted mobile document vault remain available; the tool does not diagnose or prescribe.",
+      "summaryZh": "中文优先、本地优先的个人健康记录工具。v1.5.0 用日常手记把实际饮食与 Apple 健康官方导出文件中的活动、休息记录按日并排展示，无需餐单或 AI 即可记一餐；继续保留可追溯的就医档案、按次授权的 AI 草稿与独立手机加密资料版，不用于诊断或开药。",
       "sections": [
         {
           "title": "项目定位",
           "items": [
-            "用途：整理个人健康资料、记录日常变化，准备就医摘要。",
-            "形式：中文优先的本地应用，默认从空白档案开始，不预置人物或病历。"
+            "用途：保留就医资料与出处，记录日常活动、休息和实际饮食，帮助回顾变化、准备就医摘要。",
+            "形式：中文优先的单人本地应用，默认空白。设备记录、个人自述、报告事实与 AI 草稿分开标注，不把缺失信息当作正常。"
           ]
         },
         {
           "title": "五个特点",
           "items": [
-            "本地档案：集中记录就诊、指标、用药、症状、健康问题与随访，核心功能无需云账号。",
-            "原件可追溯：保存 PDF、图片和文本，按内容去重，支持多科关联、时间线、指标趋势和就医摘要。",
-            "AI 按次授权：报告整理、餐食与资料问答只生成待核对草稿，发送前预览确认，不自动写入已确认记录。",
-            "手机资料库：拍照或导入文件，加密保存与备份；手动交换原件，不是自动全病历同步。",
-            "日常饮食记录：保留实际用餐信息，在限制确认后提供一般成人餐单灵感，不提供治疗性膳食处方。"
+            "日常手记：按日期并排查看四餐、步数、睡眠、心率采样均值和步行／跑步距离；日期切换、周趋势和原始样本帮助回顾，不按消耗热量决定进食。",
+            "独立记餐：无需先生成餐单、确认膳食适用范围或调用 AI，直接记录早餐、午餐、晚餐和加餐，可关联照片原件；旧餐单实际记录与人工核对备注保留原来源。",
+            "Apple 健康导入：支持官方 ZIP/XML 导出文件中的 18 类日常指标，流式解析、先预览再选择指标和日期入库；多设备来源不直接相加，缺失显示为空。",
+            "可追溯档案与 AI 草稿：保留就诊、报告、指标、用药和症状的来源；可选报告、餐食与问答分析按次授权，结果仍需人工核实。",
+            "备份与手机资料：桌面 schema v4 和备份 v4 覆盖设备记录、独立饮食日记及附件关联；手机资料版继续独立加密保存，跨端仍为手动资料交换。"
+          ]
+        },
+        {
+          "title": "这次更新：v1.3.1 → v1.5.0",
+          "items": [
+            "v1.4.0：新增 Apple 健康／Apple Watch 官方导出数据导入。无需 Apple ID，不访问 iCloud，也不是网页直连 HealthKit 或实时自动同步。",
+            "v1.5.0：重构日常手记与独立饮食记录，新增照片关联、按日概况和来源核对；同时改善移动布局、触控入口、编辑防丢和并发版本保护。",
+            "维护与升级：原开发目录已统一到 GitHub 历史，保留原 CI 和异步测试修正；新 schema 保留旧记录，恢复支持备份 v1–v4 到空档案，升级前仍需停服备份。"
           ]
         },
         {
@@ -130,15 +143,15 @@
           "items": [
             "技术栈：Python 标准库、SQLite、原生 HTML/CSS/JavaScript；单人本地使用。",
             "模型连接：可选 API 或独立 Codex 连接；云端请求会在确认后发送选定资料，手机端目前不调用模型。",
-            "加密边界：桌面数据库、附件、ZIP 及跨端原件包未做应用层加密；手机库与手机备份加密。",
+            "存储与加密：桌面文字和设备样本存于本机 SQLite，照片存于附件目录，不是浏览器缓存；桌面数据库、ZIP、原件互传包及回顾 TXT 未做应用层加密，手机库与手机备份加密。",
             "部署边界：博客只展示项目，不托管健康资料或开放医疗后台。"
           ]
         },
         {
           "title": "当前阶段与限制",
           "items": [
-            "阶段：1.3.1 个人初版；2026-11-22 本地合成测试通过，医学可靠性未经临床验证。",
-            "待验证：真实模型推理、物理手机体验和跨平台兼容性仍需进一步检查。",
+            "阶段：当前源码 v1.5.0、开发预览。本次核实最新提交与 GitHub Actions 成功；开发者验收记录报告 341 项合成测试通过，本次博客整理没有重跑这些项目测试。",
+            "待验证：真实设备导出覆盖和真实模型医疗质量仍需核对；设备记录与饮食同日呈现不构成因果分析、健康评分或临床验证。",
             "医疗边界：不确诊、不预测患病概率、不开药、不调整剂量、不排除急症，不替代医生判断。",
             "使用原则：摘录与草稿应对照原件核实，重要医疗资料应另存备份。"
           ]
@@ -148,18 +161,26 @@
         {
           "title": "Purpose",
           "items": [
-            "Use: organize personal health records, track changes, and prepare information for medical visits.",
-            "Format: a Chinese-first local application with empty-by-default journals and no prefilled patient records."
+            "Use: preserve medical records and their sources, record daily activity, rest, and actual meals, and prepare information for medical visits.",
+            "Format: an empty-by-default, Chinese-first application for local personal use. Device records, self-reports, verified facts, and AI drafts retain distinct provenance; missing data is not treated as normal."
           ]
         },
         {
           "title": "Five key features",
           "items": [
-            "Local records: visits, lab observations, medications, symptoms, health concerns, and follow-ups; core features require no cloud account.",
-            "Traceable originals: preserve PDFs, images, and text with content deduplication, department links, timelines, observation trends, and visit summaries.",
-            "Opt-in AI: drafts for reports, meals, and record questions, with a preview before each request and no automatic promotion to verified records.",
-            "Mobile document vault: encrypted storage and backups for photos and imports, with manual original-file transfer rather than automatic full-record sync.",
-            "Meal records: actual-meal records and constrained meal inspiration for general adult use, not therapeutic nutrition prescriptions."
+            "Daily journal: meals appear alongside steps, sleep, sampled mean heart rate, and walking/running distance for the selected date, with weekly trends and source records. Activity energy does not determine food recommendations.",
+            "Independent meal logging: record breakfast, lunch, dinner, and snacks without a meal plan, diet-eligibility confirmation, or AI call. Link photo originals while retaining the provenance of older plan records and verified notes.",
+            "Apple Health import: stream official ZIP/XML exports covering 18 daily metric types, preview first, and select metrics and dates before saving. Multiple device sources are not automatically summed, and missing values remain blank.",
+            "Traceable records and AI drafts: preserve sources for visits, reports, observations, medication, and symptoms. Optional report, meal, and question analysis requires per-request consent and manual verification.",
+            "Backups and mobile documents: desktop schema v4 and backup v4 include device records, independent meal entries, and attachment references. The mobile vault remains separately encrypted; cross-device exchange is still manual."
+          ]
+        },
+        {
+          "title": "This update: v1.3.1 to v1.5.0",
+          "items": [
+            "v1.4.0: added imports of official Apple Health/Apple Watch export files, without Apple ID or iCloud access. This is not browser-based HealthKit access or automatic live synchronization.",
+            "v1.5.0: redesigned daily journals and independent meal records, with photo references, daily summaries, source selection, mobile layouts, input preservation, and concurrent-edit version checks.",
+            "Maintenance and upgrades: the original development workspace now shares GitHub history and retains prior CI and asynchronous-test fixes. Schema upgrades preserve existing records; backups v1–v4 can be restored into empty journals. Stop the service and back up before upgrading."
           ]
         },
         {
@@ -167,24 +188,27 @@
           "items": [
             "Stack: Python standard library, SQLite, and vanilla HTML/CSS/JavaScript for single-user local use.",
             "Model connections: optional API or isolated Codex connections send selected information after confirmation; the mobile edition does not call models.",
-            "Encryption boundaries: desktop data, ZIP backups, and transfer packages lack application-level encryption; mobile vaults and their backups are encrypted.",
+            "Storage and encryption: desktop text and device samples are stored in local SQLite and photos in the attachment directory, not browser cache. Desktop data, ZIP backups, transfer packages, and review TXT exports lack application-level encryption; mobile vaults and their backups are encrypted.",
             "Hosting boundaries: this blog presents the project; it does not host health records or a medical backend."
           ]
         },
         {
           "title": "Current scope and limitations",
           "items": [
-            "Status: personal first edition 1.3.1; local synthetic tests passed on November 22, 2026, not clinical validation.",
-            "Further checks: real-model inference, physical-device experience, and cross-platform compatibility need further checks.",
+            "Status: source v1.5.0, a development preview. The latest commit and successful GitHub Actions run were checked for this update. Developer acceptance notes report 341 passing synthetic tests; those project tests were not rerun while editing this blog.",
+            "Further checks: real-device export coverage and medical quality of real-model output need verification. Viewing activity and meals together does not establish causality, a health score, or clinical validity.",
             "Medical boundaries: no diagnosis, disease-probability prediction, prescribing, dose adjustment, emergency exclusion, or replacement of professional judgment.",
             "Use: verify extracts and drafts against originals and keep separate backups of important records."
           ]
         }
       ],
       "resources": [
-        { "label": "GitHub · 源码与使用说明", "labelEn": "GitHub · Source and documentation", "urlKey": "health-journal-code" }
+        { "label": "GitHub · 源码与使用说明", "labelEn": "GitHub · Source and documentation", "urlKey": "health-journal-code" },
+        { "label": "日常手记说明", "labelEn": "Daily journal guide", "urlKey": "health-journal-daily-doc" },
+        { "label": "Apple 健康导入说明", "labelEn": "Apple Health import guide", "urlKey": "health-journal-apple-doc" },
+        { "label": "版本记录", "labelEn": "Changelog", "urlKey": "health-journal-changelog" }
       ],
-      "sourceNote": "依据交接资料及 1.3.1 源码，于 2026-11-22 核对；本地 164 项 Python 与 95 项 Node 合成测试通过。公开仓库 80 个文件的远端哈希逐一核对一致，未上传个人档案或凭证，未创建 Release。 / Reviewed source and handoff; local synthetic tests passed and all 80 public repository blobs matched the reviewed files."
+      "sourceNote": "2026-11-25 核对公开提交 281c170b3124a3f7bedfcfce485064e488faf81e、README、CHANGELOG 及成功 CI 45560959214，更新素材中的本地验收数字为开发者报告，未在博客任务中重跑或读取私人数据。 / Verified the public v1.5.0 commit, documentation and successful CI; local acceptance figures are attributed to developer notes, not a new run in this blog task."
     },
     {
       "slug": "project-manager",
@@ -200,9 +224,10 @@
       "originalTitle": "Project Manager: a local dashboard for AI-assisted work",
       "relation": "个人项目",
       "publishedAt": "2026-11-22",
-      "sourceCheckedAt": "2026-11-23",
-      "summary": "A local-first dashboard that brings Codex and Claude Code projects into one place: current progress, next actions, unresolved questions, and milestone history.",
-      "summaryZh": "面向 Codex 和 Claude Code 的本地项目看板：集中跟进、实时状态、阶段时间线、结构化行动卡和可选自动回读。帮助记清做到哪了、下一步做什么、还有什么待确认；结项始终由用户决定。",
+      "updatedAt": "2026-11-25",
+      "sourceCheckedAt": "2026-11-25",
+      "summary": "A local dashboard for Codex and Claude Code with explicit tracking, shared live request status, milestone timelines, and structured next actions. Optional Codex reviews require opt-in, and completion always remains a user decision. The latest maintenance update unifies source development with GitHub while keeping private runtime data separate.",
+      "summaryZh": "面向 Codex 和 Claude Code 的本地项目看板，集中展示进度、实时请求、阶段时间线和下一步行动。可选 Codex 自动回读默认关闭，结项由用户决定；本次维护统一源码与 GitHub 的开发入口，让私人运行数据继续留在原处。",
       "sections": [
         {
           "title": "解决什么问题",
@@ -227,6 +252,14 @@
             "先体验：提供完全虚构的独立演示，不读取本机聊天、不连接网关、不调用模型；演示与真实数据目录不能混用。",
             "外发边界：状态订阅不调用模型；主动开启自动回读后，所选聊天文本会发送给现有 Codex 配置的模型服务，可能产生费用。",
             "部署边界：Python 服务仅在个人设备的回环地址运行；GitHub Pages 只展示项目介绍，不运行后端，也不暴露真实看板。"
+          ]
+        },
+        {
+          "title": "本次维护更新",
+          "items": [
+            "统一源码入口：从关联 GitHub 的同一工作区开发和提交，旧发布副本仅保留作历史快照，不再整目录互相覆盖。",
+            "数据仍在原处：通过 --data-dir 复用原私人数据目录，程序、静态页面与模型 schema 从当前源码加载；切换前备份、停旧服务，不同时运行两个分析器。",
+            "提交前检查：新增 Git 索引文件检查与可选本机 pre-commit hook，拦截已知数据库、聊天分析、凭据、日志和符号链接。不会自动启用 hook，也不是完整脱敏或安全审计。"
           ]
         },
         {
@@ -266,6 +299,14 @@
           ]
         },
         {
+          "title": "This maintenance update",
+          "items": [
+            "One source workspace: develop and submit from the GitHub-linked checkout. Old publication copies remain historical snapshots rather than directories to overwrite back and forth.",
+            "Data stays in place: use --data-dir for the existing private data directory while code, static assets, and output schema come from the current source. Back up and stop the old service first; do not run two analyzers against the same data.",
+            "Pre-commit checks: a Git-index guard and optional local hook reject known databases, analysis files, credentials, logs, and symbolic links. Hooks are not activated automatically, and the guard is not full anonymization or a security audit."
+          ]
+        },
+        {
           "title": "Compatibility and limitations",
           "items": [
             "Request completion, conversation-turn completion, and user acceptance are separate states. HTTP success is not project completion.",
@@ -276,9 +317,10 @@
         }
       ],
       "resources": [
-        { "label": "GitHub · 源码与使用说明", "labelEn": "GitHub · Source and documentation", "urlKey": "project-manager-code" }
+        { "label": "GitHub · 源码与使用说明", "labelEn": "GitHub · Source and documentation", "urlKey": "project-manager-code" },
+        { "label": "源码与数据维护说明", "labelEn": "Source and data maintenance guide", "urlKey": "project-manager-maintenance" }
       ],
-      "sourceNote": "2026-11-23 复核准备的发布版及 GitHub 上传文件；本地 103 项 Python、46 项 Node 合成测试通过，不读取真实聊天或调用真实模型。仅发布源码、文档、测试和虚构截图，私人看板与数据库保持本地。 / Reviewed the release copy and uploaded source files; 103 Python and 46 Node synthetic tests passed locally without reading real conversations or calling models. Private dashboard data remains local."
+      "sourceNote": "2026-11-25 核对公开提交 edfffac225b253e09c1e272b92c3a8bcba21a7e2、维护文档及成功 CI 45564851234；仅更新博客描述，不修改源项目、不检查私人运行资料。 / Verified the maintenance commit, guide, and successful CI; edited blog copy only, not source projects or private runtime data."
     },
     {
       "slug": "ocsd",
@@ -916,8 +958,8 @@
     {
       "id": "project-manager-introduction",
       "date": "2026-11-22",
-      "text": "新增「项目总管」介绍：把 Codex 与 Claude Code 中分散的工作整理成本地看板，用实时请求状态、阶段时间线和结构化行动卡记录进度与下一步。可选自动回读默认关闭，项目是否完成始终由用户确认。",
-      "textEn": "Added Project Manager, a local dashboard that organizes work across Codex and Claude Code with live request status, milestone timelines, and structured next-action cards. Optional reviews are disabled by default, and project completion always requires user confirmation.",
+      "text": "新增「项目总管」介绍：把 Codex 与 Claude Code 中分散的工作整理成本地看板，用实时请求状态、阶段时间线和结构化行动卡记录进度与下一步。可选自动回读默认关闭，项目是否完成始终由用户确认。11 月 25 日维护补充：统一源码维护入口，保留私人数据原位置，并增加提交前 Git 索引隐私检查。",
+      "textEn": "Added Project Manager, a local dashboard for Codex and Claude Code with live request status, milestone timelines, and structured next-action cards. Optional reviews are disabled by default, and completion requires user confirmation. Maintenance note, November 25: unified source development, kept private data in place, and added pre-commit checks of the Git index.",
       "entrySlug": "project-manager"
     },
     {
@@ -962,6 +1004,13 @@
       "text": "LawShift 评估法律条文修订下的司法判决预测能力，覆盖 31 类细粒度法条变化，检验模型能否随法律变化调整判断。相关论文获 NeurIPS 2025 Datasets and Benchmarks Track 接收。",
       "textEn": "LawShift evaluates legal judgment prediction under statutory revisions, covering 31 fine-grained change types to test whether models adapt their judgments when the law changes. The paper was accepted to the NeurIPS 2025 Datasets and Benchmarks Track.",
       "entrySlug": "lawshift"
+    },
+    {
+      "id": "health-journal-v150",
+      "date": "2026-11-25",
+      "text": "知己 · 健康手记更新至 v1.5.0：支持导入 Apple 健康官方 ZIP/XML 文件，用日常手记把活动、休息和实际饮食按天并排呈现，记一餐可直接关联照片，无需先生成餐单或调用 AI。仍是本地记录与就医准备工具，不是实时设备同步或诊断系统。",
+      "textEn": "Health Journal is now at source version 1.5.0: import official Apple Health ZIP/XML exports and review activity, rest, and actual meals together by date. Log meals with photo references without a meal plan or AI call. It remains a local record and visit-preparation tool, not live device sync or a diagnostic system.",
+      "entrySlug": "health-journal"
     }
   ]
 }

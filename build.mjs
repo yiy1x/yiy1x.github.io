@@ -123,7 +123,7 @@ function page({ pageKey, title, body, description }) {
 
 function metadata(entry, pageKey) {
   const { locale } = model.route(pageKey);
-  return `<div class="article-meta">${copyFor(locale).category}${link(pageKey, topicKey(entry.topic), topicLabels(entry.topic, locale).name)}${entry.publishedAt ? `　<time datetime="${entry.publishedAt}">${entry.publishedAt}</time>` : ''}</div>`;
+  return `<div class="article-meta">${copyFor(locale).category}${link(pageKey, topicKey(entry.topic), topicLabels(entry.topic, locale).name)}${entry.publishedAt ? `　<time datetime="${entry.publishedAt}">${entry.publishedAt}</time>` : ''}${entry.updatedAt ? `　${copyFor(locale).updated} <time datetime="${entry.updatedAt}">${entry.updatedAt}</time>` : ''}</div>`;
 }
 
 function publicationDetails(entry) {

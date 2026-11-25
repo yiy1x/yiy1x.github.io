@@ -55,7 +55,7 @@ test('health journal uses shared bilingual routes and project news without chang
 test('home entries put recent work first independently of the pinned paper order', () => {
   const input = structuredClone(content);
   const template = input.entries.find(entry => entry.topic === 'projects');
-  input.entries.push({ ...structuredClone(template), slug: 'newest-work', publishedAt: '2099-12-31' });
+  input.entries.push({ ...structuredClone(template), slug: 'newest-work', publishedAt: '2099-12-31', updatedAt: '2099-12-31' });
   const before = structuredClone(input);
   const model = createSiteModel(input);
   assert.equal(model.homeEntries[0].slug, 'newest-work');
@@ -68,6 +68,7 @@ test('home entries put recent work first independently of the pinned paper order
 test('home ordering handles partial dates and shows later-added same-day entries first', () => {
   const input = structuredClone(content);
   const project = input.entries.find(entry => entry.topic === 'projects');
+  delete project.updatedAt;
   const paper = input.entries.find(entry => entry.topic === 'papers');
   input.entries = [
     { ...structuredClone(project), slug: 'undated', publishedAt: null },
@@ -149,14 +150,63 @@ test('news keeps latest same-day additions first without losing history or mutat
   assert.ok(Object.isFrozen(model.homeUpdates));
 });
 
-test('Project Manager news leads both bilingual homepages and update histories exactly once', async () => {
+test('project news appears in shared order without duplicates in both locales', async () => {
+  const model = createSiteModel(content);
   for (const prefix of ['', 'en/']) {
     for (const page of ['index.html', 'updates/index.html']) {
       const html = await readFile(new URL(`site/${prefix}${page}`, import.meta.url), 'utf8');
       const ids = [...html.matchAll(/data-update-key="([^"]+)"/g)].map(match => match[1]);
-      assert.equal(ids[0], 'project-manager-introduction');
-      assert.equal(ids.filter(id => id === 'project-manager-introduction').length, 1);
-      assert.ok(ids.includes('health-journal-introduction'));
+      const expected = page === 'index.html' ? model.homeUpdates : model.orderedUpdates;
+      assert.deepEqual(ids, expected.map(update => update.id));
+      if (page === 'updates/index.html') {
+        for (const id of ['project-manager-introduction', 'health-journal-introduction', 'health-journal-v150']) assert.equal(ids.filter(value => value === id).length, 1);
+      }
+    }
+  }
+});
+
+test('project update dates are validated without changing original publication dates or paper priority', () => {
+  const input = structuredClone(content);
+  const entry = input.entries.find(entry => entry.slug === 'health-journal');
+  const originalDate = entry.publishedAt;
+  entry.updatedAt = '2099-01-01';
+  const model = createSiteModel(input);
+  assert.equal(model.entry(entry.slug).publishedAt, originalDate);
+  assert.equal(model.homeEntries[0].slug, entry.slug);
+  assert.deepEqual(model.orderedEntries.filter(entry => input.paperOrder.includes(entry.slug)).map(entry => entry.slug), input.paperOrder);
+  for (const value of [null, '', '2026-11', '2026-02-30', '2026-11-21', 123]) {
+    const invalid = structuredClone(content);
+    invalid.entries.find(entry => entry.slug === 'health-journal').updatedAt = value;
+    assert.throws(() => createSiteModel(invalid));
+  }
+  const paperInput = structuredClone(content);
+  paperInput.entries.find(entry => entry.topic === 'papers').updatedAt = '2026-11-25';
+  assert.throws(() => createSiteModel(paperInput));
+});
+
+test('v1.5.0 news is distinct while nearby manager maintenance is folded into its existing record', async () => {
+  const model = createSiteModel(content);
+  const health = model.entry('health-journal');
+  const manager = model.entry('project-manager');
+  assert.equal(health.publishedAt, '2026-11-22');
+  assert.equal(manager.publishedAt, '2026-11-22');
+  assert.equal(health.updatedAt, '2026-11-25');
+  assert.equal(manager.updatedAt, '2026-11-25');
+  const recent = model.orderedUpdates.find(update => update.id === 'health-journal-v150');
+  assert.equal(recent.entrySlug, health.slug);
+  assert.equal(recent.date, '2026-11-25');
+  assert.equal(recent.topicId, 'projects');
+  assert.match(recent.text, /ZIP\/XML/);
+  assert.equal(model.orderedUpdates.filter(update => update.entrySlug === manager.slug).length, 1);
+  const maintenance = model.orderedUpdates.find(update => update.entrySlug === manager.slug);
+  assert.equal(maintenance.id, 'project-manager-introduction');
+  assert.equal(maintenance.date, '2026-11-22');
+  assert.match(maintenance.text, /11 月 25 日/);
+  for (const [prefix, label] of [['', '更新于'], ['en/', 'Updated']]) {
+    for (const slug of [health.slug, manager.slug]) {
+      const html = await readFile(new URL(`site/${prefix}posts/${slug}/index.html`, import.meta.url), 'utf8');
+      assert.ok(html.includes('<time datetime="2026-11-22">2026-11-22</time>'));
+      assert.ok(html.includes(`${label} <time datetime="2026-11-25">2026-11-25</time>`));
     }
   }
 });

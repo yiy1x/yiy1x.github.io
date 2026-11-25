@@ -21,7 +21,7 @@ Open http://127.0.0.1:8876/ for Chinese or http://127.0.0.1:8876/en/ for English
 - Edit `content.json`, not the generated HTML in `site/`.
 - `links` is the central registry for external URLs. Reuse `urlKey`, `githubKey`, and `authorSourceKey` instead of repeating URLs.
 - Article slugs and topic IDs are stable URL identities. Titles and labels can change without changing those identities.
-- The home page's research overview uses `homeEntries`, ordered by date descending so recent work appears first. It uses `publishedAt`, falling back to publication year/month; undated entries appear last. Within the same date, later entries in `content.entries` appear first: append new articles so same-day additions lead without changing dates or IDs.
+- The home page's research overview uses `homeEntries`, ordered by date descending so recent work appears first. Projects and notes use optional `updatedAt` before `publishedAt`; paper dates still fall back to publication year/month. Undated entries appear last. Within the same date, later entries in `content.entries` appear first. Keep the original `publishedAt`; `updatedAt` must be a complete valid date not earlier than it, and is displayed separately on the detail page.
 - `paperOrder` controls priority in the topic overview and paper lists, not the home page. Entries not listed there follow year and author-priority ordering.
 - `friendLinks` contains labels and shared `urlKey` references for the Friends section below About in both languages.
 - Each paper keeps its original English title, ordered authors, and detail body. `isSelf` highlights Yi Yang; verified `equalContribution` and `corresponding` flags render contribution markers.
@@ -32,7 +32,16 @@ Open http://127.0.0.1:8876/ for Chinese or http://127.0.0.1:8876/en/ for English
 - `showOnHome: false` keeps a news item in the complete history but excludes it from the homepage's five-item preview.
 - `i18n.mjs` contains interface translations; `routes.mjs` provides shared bilingual routes. The language switch preserves the current article or topic.
 
-## Deployment
+## Project news policy
+
+- This is a manual publishing convention, not a scheduler or automatic GitHub monitor. Updating a project description does not itself create news.
+- Record meaningful small improvements as well as larger releases, after checking the supplied update or published source. Pure spelling, formatting or repeated descriptions do not need a new news item.
+- Default coalescing window: 7 calendar days for minor updates to the same project. Within that window, append a dated bilingual maintenance note to the latest relevant news record, preserving its ID, original date and earlier milestone; do not create a second item or change dates to force it to the top.
+- Outside the window, or after a longer quiet period, add one dated bilingual summary for the current batch of minor changes. If only a month is known, ask for the event date instead of inventing a precise interval.
+- A substantial new capability or release can have its own news item even within the window. Preserve all older entries; never retrospectively suppress history. Record project details with `updatedAt` independently of whether news is merged or added.
+- Changing the 7-day editorial convention requires a deliberate decision, not ad hoc per-page behavior. Both locales and the full history use the same news records and global links.
+
+## Deployment workflow
 
 GitHub Pages uses the workflow in `.github/workflows/pages.yml`. Changes pushed to `main` build and validate the site, then publish only the generated `site/` directory. Pull requests run the same build and validation without publishing. The workflow can also be run manually from Actions.
 

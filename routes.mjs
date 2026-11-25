@@ -19,6 +19,7 @@ function authorPriority(entry) {
 }
 
 function entryDate(entry) {
+  if (entry.topic !== 'papers' && entry.updatedAt) return entry.updatedAt;
   return entry.publishedAt || (entry.publication?.year ? `${entry.publication.year}-${String(entry.publication.month || 0).padStart(2, '0')}` : '');
 }
 
@@ -167,6 +168,11 @@ export function createSiteModel(input) {
     }
     date(entry.sourceCheckedAt, 'entry.sourceCheckedAt');
     if (entry.publishedAt != null) date(entry.publishedAt, 'entry.publishedAt');
+    if (entry.updatedAt !== undefined) {
+      if (entry.topic === 'papers') throw new Error('Project update dates do not apply to papers');
+      date(entry.updatedAt, 'entry.updatedAt');
+      if (entry.publishedAt && entry.updatedAt < entry.publishedAt) throw new Error('updatedAt must not precede publishedAt');
+    }
     if (entry.topic === 'papers' || entry.authors !== undefined) {
       array(entry.authors, 'entry.authors');
       if (!entry.authors.length) throw new Error('A paper must have at least one author');
