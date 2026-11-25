@@ -100,8 +100,8 @@
       "brief": {
         "title": "知己 · 健康手记",
         "titleEn": "Health Journal",
-        "summary": "Keep health records, manually imported Apple Health data, and actual meals together in a local daily journal.",
-        "summaryZh": "用本地档案整理就医资料，把 Apple 健康导出记录和实际饮食放在同一天的日常手记中。"
+        "summary": "A local personal health journal that keeps medical records, Apple Health exports, and daily meals in one place.",
+        "summaryZh": "装在自己电脑上的个人健康档案：整理病历和检查单，也把日常三餐和 Apple 健康记录放在同一天里看。"
       },
       "topic": "projects",
       "title": "知己 · 健康手记",
@@ -111,95 +111,97 @@
       "publishedAt": "2026-11-22",
       "updatedAt": "2026-11-25",
       "sourceCheckedAt": "2026-11-25",
-      "summary": "Health Journal is a Chinese-first, local-first personal health record tool. Version 1.5.0 adds a daily journal that places actual meals alongside activity and rest records imported from official Apple Health ZIP/XML exports. Meal logging works without a meal plan or AI call. Traceable medical records, opt-in AI drafts, and a separate encrypted mobile document vault remain available; the tool does not diagnose or prescribe.",
-      "summaryZh": "中文优先、本地优先的个人健康记录工具。v1.5.0 用日常手记把实际饮食与 Apple 健康官方导出文件中的活动、休息记录按日并排展示，无需餐单或 AI 即可记一餐；继续保留可追溯的就医档案、按次授权的 AI 草稿与独立手机加密资料版，不用于诊断或开药。",
+      "summary": "Health Journal is a Chinese-first, local personal health tool. In v1.6, it puts Apple Health ZIP/XML exports and daily meals side by side, trims the 12-item sidebar down to two focused sections (Daily Log and Medical Records), adds native DeepSeek API support, and polishes both code reliability and interface copy. Your files stay on your machine, AI calls ask before sending anything, and the tool never diagnoses or prescribes.",
+      "summaryZh": "一款装在本地、中文界面的个人健康记录工具。v1.6 把 Apple 健康导出的步数、睡眠和日常饮食放到同一天里看，把原来铺开的 12 个侧边栏入口收拢成「日常记录」和「医疗档案」两大块，补齐了 DeepSeek 官方 API 适配，也把前后端状态和界面文案重头打磨了一遍。资料留在自己设备上，AI 只在你点确认后才发数据，不看病、不开药。",
       "sections": [
         {
-          "title": "项目定位",
+          "title": "它用来解决什么问题",
           "items": [
-            "用途：保留就医资料与出处，记录日常活动、休息和实际饮食，帮助回顾变化、准备就医摘要。",
-            "形式：中文优先的单人本地应用，默认空白。设备记录、个人自述、报告事实与 AI 草稿分开标注，不把缺失信息当作正常。"
+            "去医院复诊时，化验单、病历、吃过的药和最近的作息饮食往往散在微信、相册和纸质单据里。这个工具把它们收在本地，方便平时随手记、复诊前拉出一页就医摘要。",
+            "打开默认是空白档案，只给自己用。设备导出的数据、自己写的感受、原件里的事实和 AI 整理的草稿都分开标清楚，没记的就留空，不硬凑。"
           ]
         },
         {
-          "title": "五个特点",
+          "title": "主要功能",
           "items": [
-            "日常手记：按日期并排查看四餐、步数、睡眠、心率采样均值和步行／跑步距离；日期切换、周趋势和原始样本帮助回顾，不按消耗热量决定进食。",
-            "独立记餐：无需先生成餐单、确认膳食适用范围或调用 AI，直接记录早餐、午餐、晚餐和加餐，可关联照片原件；旧餐单实际记录与人工核对备注保留原来源。",
-            "Apple 健康导入：支持官方 ZIP/XML 导出文件中的 18 类日常指标，流式解析、先预览再选择指标和日期入库；多设备来源不直接相加，缺失显示为空。",
-            "可追溯档案与 AI 草稿：保留就诊、报告、指标、用药和症状的来源；可选报告、餐食与问答分析按次授权，结果仍需人工核实。",
-            "备份与手机资料：桌面 schema v4 和备份 v4 覆盖设备记录、独立饮食日记及附件关联；手机资料版继续独立加密保存，跨端仍为手动资料交换。"
+            "日常手记与独立记餐：按天把早中晚餐、加餐和当天的步数、睡眠、心率、步行距离并排看。想记一餐直接写、顺手贴张照片就行，不用先做餐单，也不必调 AI。",
+            "Apple 健康导入：支持读取苹果健康导出的官方 ZIP/XML，覆盖 18 类常见日常指标。先预览、自己勾选指标和日期再入库，不同设备的数据不会硬加在一起，缺了哪天就留空。",
+            "精简的两块主导航：把原来一长串 12 个侧边栏入口收拢成「日常记录」（日常手记、AI 助理）和「医疗档案」（档案总览、诊疗与资料、就医摘要），「设置与模型」挪到底部，老路由和书签照常可用。",
+            "可选的 AI 帮手与 DeepSeek 适配：内置 DeepSeek 官方预设（支持 deepseek-flash 图文和 deepseek-v4-pro 纯文字），也兼容 OpenAI、百炼、硅基流动、自定义 API 和本地 Codex。每次外发资料前都会先给你看发什么、等你确认，生成的整理结果只算草稿。",
+            "本地备份与手机随身资料版：桌面端数据存成 SQLite 和附件目录，支持备份恢复（schema v4 / 备份 v4）；手机端有独立的加密资料版，出门拍照存单据，回家再手动和电脑互传。"
           ]
         },
         {
-          "title": "这次更新：v1.3.1 → v1.5.0",
+          "title": "这次 v1.6 更新了什么",
           "items": [
-            "v1.4.0：新增 Apple 健康／Apple Watch 官方导出数据导入。无需 Apple ID，不访问 iCloud，也不是网页直连 HealthKit 或实时自动同步。",
-            "v1.5.0：重构日常手记与独立饮食记录，新增照片关联、按日概况和来源核对；同时改善移动布局、触控入口、编辑防丢和并发版本保护。",
-            "维护与升级：原开发目录已统一到 GitHub 历史，保留原 CI 和异步测试修正；新 schema 保留旧记录，恢复支持备份 v1–v4 到空档案，升级前仍需停服备份。"
+            "导航大瘦身：结合朋友试用的真实反馈，把 12 个平铺入口归拢为「日常记录」和「医疗档案」两大板块，页内用子标签切换；模型设置退到底部，默认露出常用的 API Key，本地 Codex 折叠收起。",
+            "日常手记与 Apple 健康导入：延续当天合并进来的 Apple 健康 ZIP/XML 导入和独立记餐，可以按天对照活动、休息与三餐并关联照片（无需 Apple ID，也不是实时同步）。",
+            "完整适配 DeepSeek 官方 API：加入 DeepSeek 预设，处理纯文字 content 格式、关闭默认思考模式并开启 JSON 输出与更长超时，把 402 余额不足、404 模型名和空响应等报错说清楚。",
+            "代码与界面全面打磨：排查了前后端并发锁、嵌套数据库连接、删除记录后的空态和失效数据来源重置；全站统一为更耐看的松绿/灰白配色，去掉偏口号的 AI 腔文案，同时修好了手机窄屏排版。"
           ]
         },
         {
           "title": "技术与隐私",
           "items": [
-            "技术栈：Python 标准库、SQLite、原生 HTML/CSS/JavaScript；单人本地使用。",
-            "模型连接：可选 API 或独立 Codex 连接；云端请求会在确认后发送选定资料，手机端目前不调用模型。",
-            "存储与加密：桌面文字和设备样本存于本机 SQLite，照片存于附件目录，不是浏览器缓存；桌面数据库、ZIP、原件互传包及回顾 TXT 未做应用层加密，手机库与手机备份加密。",
-            "部署边界：博客只展示项目，不托管健康资料或开放医疗后台。"
+            "技术栈很轻：Python 标准库 + SQLite + 原生 HTML/CSS/JS，没有复杂构建流程，只跑在本机。",
+            "数据放在哪：桌面文字和设备记录存在本机 SQLite，照片在附件目录，不是浏览器缓存；桌面数据库、ZIP 和互传包目前没有额外的应用层加密，手机端资料库和手机备份有加密。",
+            "联网边界：日常记账、查病历、看趋势完全离线；只有你主动点 AI 分析并确认发送内容后，才会把选中的数据发给对应模型接口。手机端目前不调模型。",
+            "博客边界：个人博客只放项目介绍和源码链接，不托管任何个人健康资料，也不对外开放后端。"
           ]
         },
         {
           "title": "当前阶段与限制",
           "items": [
-            "阶段：当前源码 v1.5.0、开发预览。本次核实最新提交与 GitHub Actions 成功；开发者验收记录报告 341 项合成测试通过，本次博客整理没有重跑这些项目测试。",
-            "待验证：真实设备导出覆盖和真实模型医疗质量仍需核对；设备记录与饮食同日呈现不构成因果分析、健康评分或临床验证。",
-            "医疗边界：不确诊、不预测患病概率、不开药、不调整剂量、不排除急症，不替代医生判断。",
-            "使用原则：摘录与草稿应对照原件核实，重要医疗资料应另存备份。"
+            "进度与测试：公开仓库最新提交 9d2b203（仓库版本号仍标为 1.5.0，包含本次 v1.6 全部改动），跨平台 GitHub Actions 6/6 通过，更新日志记录 350 项自动化回归通过（博客这边没有重跑项目测试）。",
+            "还在继续验证的地方：不同真实手机的 Apple 健康导出差异、真实模型的医疗整理质量还需要更多日常使用去检验；把运动和饮食摆在同一天只是方便回顾，不是因果推断或健康打分。",
+            "医疗底线：不做诊断、不预测得病概率、不开药、不改剂量，也排除不了急症，看病还是得听医生的。",
+            "使用提醒：AI 摘录和草稿要对照原件核对，重要检查单别只存这一份，记得自己另留备份。"
           ]
         }
       ],
       "sectionsEn": [
         {
-          "title": "Purpose",
+          "title": "What it solves",
           "items": [
-            "Use: preserve medical records and their sources, record daily activity, rest, and actual meals, and prepare information for medical visits.",
-            "Format: an empty-by-default, Chinese-first application for local personal use. Device records, self-reports, verified facts, and AI drafts retain distinct provenance; missing data is not treated as normal."
+            "Before a follow-up visit, lab results, prescriptions, symptoms, and daily habits are usually scattered across chat logs, photo albums, and paper printouts. Health Journal gathers them locally so you can log day to day and print a clean visit summary when you need one.",
+            "It starts blank and stays single-user on your own machine. Device exports, personal notes, original reports, and AI drafts are kept clearly labeled, and missing days stay blank instead of being guessed."
           ]
         },
         {
-          "title": "Five key features",
+          "title": "Key features",
           "items": [
-            "Daily journal: meals appear alongside steps, sleep, sampled mean heart rate, and walking/running distance for the selected date, with weekly trends and source records. Activity energy does not determine food recommendations.",
-            "Independent meal logging: record breakfast, lunch, dinner, and snacks without a meal plan, diet-eligibility confirmation, or AI call. Link photo originals while retaining the provenance of older plan records and verified notes.",
-            "Apple Health import: stream official ZIP/XML exports covering 18 daily metric types, preview first, and select metrics and dates before saving. Multiple device sources are not automatically summed, and missing values remain blank.",
-            "Traceable records and AI drafts: preserve sources for visits, reports, observations, medication, and symptoms. Optional report, meal, and question analysis requires per-request consent and manual verification.",
-            "Backups and mobile documents: desktop schema v4 and backup v4 include device records, independent meal entries, and attachment references. The mobile vault remains separately encrypted; cross-device exchange is still manual."
+            "Daily journal and quick meal logging: view meals alongside steps, sleep, heart rate, and walking distance for the same day. Log any meal and attach photos directly—no meal plan or AI call required.",
+            "Apple Health import: stream official ZIP/XML exports covering 18 everyday metrics, preview them first, and choose which metrics and dates to save. Multiple device sources are never summed blindly, and missing days stay empty.",
+            "Streamlined navigation: trims the old 12-item sidebar into two clear groups—Daily Log (Daily Journal, AI Assistant) and Medical Records (Overview, Visits & Files, Visit Summary)—with Settings & Models tucked at the bottom. All 12 original routes still work.",
+            "Opt-in AI with native DeepSeek support: ships with an official DeepSeek preset (deepseek-flash for text + images, deepseek-v4-pro for text) alongside OpenAI, Bailian, SiliconFlow, custom APIs, and local Codex. Every cloud call shows what will be sent and waits for your confirmation, and results stay marked as drafts.",
+            "Local backups and an encrypted mobile vault: desktop data lives in local SQLite and an attachments folder with v4 backup/restore; the standalone mobile vault encrypts records in the browser for capturing documents on the go and transferring them manually."
           ]
         },
         {
-          "title": "This update: v1.3.1 to v1.5.0",
+          "title": "What changed in v1.6",
           "items": [
-            "v1.4.0: added imports of official Apple Health/Apple Watch export files, without Apple ID or iCloud access. This is not browser-based HealthKit access or automatic live synchronization.",
-            "v1.5.0: redesigned daily journals and independent meal records, with photo references, daily summaries, source selection, mobile layouts, input preservation, and concurrent-edit version checks.",
-            "Maintenance and upgrades: the original development workspace now shares GitHub history and retains prior CI and asynchronous-test fixes. Schema upgrades preserve existing records; backups v1–v4 can be restored into empty journals. Stop the service and back up before upgrading."
+            "Simpler navigation: based on real feedback from friends trying the app, collapsed 12 flat links into Daily Log and Medical Records with clean in-page tabs; moved model settings to the bottom with API key fields up front and local Codex tucked away until needed.",
+            "Daily journal and Apple Health imports: builds on the same-day Apple Health ZIP/XML import and standalone meal logging with photo links (no Apple ID, no iCloud, and no live HealthKit sync).",
+            "Full DeepSeek official API support: added the DeepSeek preset, string-normalized text messages, disabled thinking mode with json_object output and a 120-second timeout, and replaced generic errors with clear 402/404/422 and empty-response messages.",
+            "Hardened state and cleaner UI: tightened backend concurrency locks, removed nested DB connections in FoodJournal.save, added missing-item and deleted-source guards in the frontend, unified the palette to a calmer pine-green theme, and rewrote stiff copy into plain language."
           ]
         },
         {
           "title": "Technology and privacy",
           "items": [
-            "Stack: Python standard library, SQLite, and vanilla HTML/CSS/JavaScript for single-user local use.",
-            "Model connections: optional API or isolated Codex connections send selected information after confirmation; the mobile edition does not call models.",
-            "Storage and encryption: desktop text and device samples are stored in local SQLite and photos in the attachment directory, not browser cache. Desktop data, ZIP backups, transfer packages, and review TXT exports lack application-level encryption; mobile vaults and their backups are encrypted.",
-            "Hosting boundaries: this blog presents the project; it does not host health records or a medical backend."
+            "Lightweight stack: Python standard library, SQLite, and vanilla HTML/CSS/JavaScript, running strictly locally.",
+            "Where data lives: desktop notes and device samples sit in local SQLite and photos in an attachment folder, not browser cache. Desktop files, ZIP backups, and transfer packages are not application-layer encrypted; the mobile vault and its backups are encrypted.",
+            "Network boundaries: everyday logging, searching, and trends work fully offline. Cloud requests happen only when you trigger an AI task and confirm the exact payload; the mobile vault makes no model calls.",
+            "Blog boundary: this blog only introduces the project and links to the source repo—it hosts no health data or backend service."
           ]
         },
         {
           "title": "Current scope and limitations",
           "items": [
-            "Status: source v1.5.0, a development preview. The latest commit and successful GitHub Actions run were checked for this update. Developer acceptance notes report 341 passing synthetic tests; those project tests were not rerun while editing this blog.",
-            "Further checks: real-device export coverage and medical quality of real-model output need verification. Viewing activity and meals together does not establish causality, a health score, or clinical validity.",
-            "Medical boundaries: no diagnosis, disease-probability prediction, prescribing, dose adjustment, emergency exclusion, or replacement of professional judgment.",
-            "Use: verify extracts and drafts against originals and keep separate backups of important records."
+            "Status and tests: checked commit 9d2b203 (the repository package version still reads 1.5.0 while carrying this v1.6 release). Cross-platform GitHub Actions passed 6/6, and the changelog reports 350 passing automated tests (not rerun inside this blog task).",
+            "Still being verified: real-device export variations and real-world model output quality need ongoing checks. Showing activity and meals on the same date is for review, not causal analysis or a health score.",
+            "Medical boundary: no diagnosis, disease risk prediction, prescribing, dose changes, or emergency screening—always rely on a doctor for medical decisions.",
+            "Practical rule: check AI extracts against the original documents and keep separate backups of important records."
           ]
         }
       ],
@@ -225,7 +227,7 @@
           "urlKey": "health-journal-changelog"
         }
       ],
-      "sourceNote": "2026-11-25 核对公开提交 281c170b3124a3f7bedfcfce485064e488faf81e、README、CHANGELOG 及成功 CI 45560959214，更新素材中的本地验收数字为开发者报告，未在博客任务中重跑或读取私人数据。 / Verified the public v1.5.0 commit, documentation and successful CI; local acceptance figures are attributed to developer notes, not a new run in this blog task."
+      "sourceNote": "2026-11-25 核对最新提交 9d2b203b874ff8763daa0450d24b5ed352d1e661、README、CHANGELOG 及 API 说明（源码包版本号仍标为 1.5.0，含本次 v1.6 全部改动）；350 项测试与 GitHub Actions 45620444423 6/6 通过由开发者更新日志提供，博客任务未重跑项目测试，也未读取私人档案。 / Verified commit 9d2b203b874ff8763daa0450d24b5ed352d1e661, README, CHANGELOG, and API notes on 2026-11-25 (package metadata still reads 1.5.0 while carrying these v1.6 changes); the 350 passing tests and CI run 45620444423 are reported in the release notes and were not rerun here."
     },
     {
       "slug": "project-manager",
@@ -1132,8 +1134,8 @@
     {
       "id": "health-journal-v150",
       "date": "2026-11-25",
-      "text": "知己 · 健康手记更新至 v1.5.0：支持导入 Apple 健康官方 ZIP/XML 文件，用日常手记把活动、休息和实际饮食按天并排呈现，记一餐可直接关联照片，无需先生成餐单或调用 AI。仍是本地记录与就医准备工具，不是实时设备同步或诊断系统。",
-      "textEn": "Health Journal is now at source version 1.5.0: import official Apple Health ZIP/XML exports and review activity, rest, and actual meals together by date. Log meals with photo references without a meal plan or AI call. It remains a local record and visit-preparation tool, not live device sync or a diagnostic system.",
+      "text": "知己 · 健康手记更新到 v1.6：除了把 Apple 健康导出的步数、睡眠和日常饮食放到同一天里看、随手记一餐贴照片，这次还按朋友试用反馈把 12 个侧边栏入口收拢成了「日常记录」和「医疗档案」两大块，补齐了 DeepSeek 官方 API 适配，也把前后端并发状态和界面文案都打磨了一遍。还是纯本地工具，不看病不开药。",
+      "textEn": "Health Journal is now at v1.6: alongside viewing Apple Health ZIP/XML exports and daily meals (with photos) on the same day, this update trims the 12-item sidebar down to Daily Log and Medical Records, adds native DeepSeek API support, and polishes concurrency handling and UI copy. Still strictly local, and not for diagnosis or prescriptions.",
       "entrySlug": "health-journal"
     },
     {

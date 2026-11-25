@@ -307,7 +307,7 @@ test('project update dates are validated without changing original publication d
   assert.throws(() => createSiteModel(paperInput));
 });
 
-test('v1.5.0 news is distinct while nearby manager maintenance is folded into its existing record', async () => {
+test('v1.6 news updates the same-day record while nearby manager maintenance stays folded', async () => {
   const model = createSiteModel(content);
   const health = model.entry('health-journal');
   const manager = model.entry('project-manager');
@@ -319,7 +319,11 @@ test('v1.5.0 news is distinct while nearby manager maintenance is folded into it
   assert.equal(recent.entrySlug, health.slug);
   assert.equal(recent.date, '2026-11-25');
   assert.equal(recent.topicId, 'projects');
-  assert.match(recent.text, /ZIP\/XML/);
+  assert.match(recent.text, /v1\.6/);
+  assert.match(recent.text, /DeepSeek/);
+  assert.match(recent.textEn, /v1\.6/);
+  assert.match(recent.textEn, /DeepSeek/);
+  assert.equal(model.orderedUpdates.filter(update => update.entrySlug === health.slug).length, 2);
   assert.equal(model.orderedUpdates.filter(update => update.entrySlug === manager.slug).length, 1);
   const maintenance = model.orderedUpdates.find(update => update.entrySlug === manager.slug);
   assert.equal(maintenance.id, 'project-manager-introduction');
