@@ -182,12 +182,59 @@ test('personal blog introduces this site with shared resources and distinct lang
   assert.equal(update.topicId, 'projects');
   assert.equal(update.date, entry.publishedAt);
   assert.ok(update.text && update.textEn);
-  assert.ok(model.homeEntries.indexOf(entry) < model.homeEntries.indexOf(model.entry('project-manager')));
+  assert.equal(entry.listPlacement, 'last');
+  assert.equal(model.homeEntries.at(-1).slug, entry.slug);
+  assert.equal(model.orderedEntries.filter(item => item.topic === 'projects').at(-1).slug, entry.slug);
   assert.ok(model.orderedUpdates.indexOf(update) < model.orderedUpdates.findIndex(item => item.id === 'project-manager-introduction'));
-  assert.equal(model.homeEntries[0].slug, entry.slug);
-  assert.equal(model.homeUpdates[0].id, update.id);
+  assert.equal(update.showOnHome, false);
+  assert.ok(!model.homeUpdates.includes(update));
+  assert.equal(model.homeUpdates.length, 5);
   assert.equal(model.content.entries.filter(item => item.slug === entry.slug).length, 1);
   assert.equal(model.orderedUpdates.filter(item => item.id === update.id).length, 1);
+});
+
+test('last placement survives future updates while preserving other ordering and input', () => {
+  const input = structuredClone(content);
+  const blog = input.entries.find(entry => entry.slug === 'personal-blog');
+  blog.updatedAt = '2099-12-31';
+  const before = structuredClone(input);
+  const model = createSiteModel(input);
+  assert.deepEqual(input, before);
+  const normalInput = structuredClone(input);
+  normalInput.entries.find(entry => entry.slug === blog.slug).listPlacement = 'normal';
+  const normal = createSiteModel(normalInput);
+  assert.equal(normal.homeEntries[0].slug, blog.slug);
+  for (const field of ['homeEntries', 'orderedEntries']) {
+    assert.equal(model[field].at(-1).slug, blog.slug);
+    assert.deepEqual(model[field].filter(entry => entry.slug !== blog.slug), normal[field].filter(entry => entry.slug !== blog.slug));
+  }
+  delete normalInput.entries.find(entry => entry.slug === blog.slug).listPlacement;
+  assert.deepEqual(createSiteModel(normalInput).homeEntries.map(entry => entry.slug), normal.homeEntries.map(entry => entry.slug));
+  for (const value of [null, '', true, 1, {}, 'first']) {
+    const invalid = structuredClone(content);
+    invalid.entries.find(entry => entry.slug === blog.slug).listPlacement = value;
+    assert.throws(() => createSiteModel(invalid), /entry.listPlacement/);
+  }
+  const paperInput = structuredClone(content);
+  paperInput.entries.find(entry => entry.topic === 'papers').listPlacement = 'last';
+  assert.throws(() => createSiteModel(paperInput), /paperOrder/);
+});
+
+test('both languages place the blog last in lists and keep its news only in full history', async () => {
+  const model = createSiteModel(content);
+  for (const prefix of ['', 'en/']) {
+    for (const page of ['index.html', 'archive/index.html', 'topics/projects/index.html']) {
+      const html = await readFile(new URL(`site/${prefix}${page}`, import.meta.url), 'utf8');
+      const keys = [...html.matchAll(/data-entry-key="([^"]+)"/g)].map(match => match[1]);
+      const expected = page === 'index.html' ? model.homeEntries : page === 'archive/index.html' ? model.orderedEntries : model.orderedEntries.filter(entry => entry.topic === 'projects');
+      assert.deepEqual(keys, expected.map(entry => entryKey(entry.slug)));
+      assert.equal(keys.at(-1), entryKey('personal-blog'));
+    }
+    const homepage = await readFile(new URL(`site/${prefix}index.html`, import.meta.url), 'utf8');
+    assert.ok(!homepage.includes('data-update-key="personal-blog-introduction"'));
+    const history = await readFile(new URL(`site/${prefix}updates/index.html`, import.meta.url), 'utf8');
+    assert.equal([...history.matchAll(/data-update-key="personal-blog-introduction"/g)].length, 1);
+  }
 });
 
 test('missing or malformed project and note translations fail before generating pages', () => {

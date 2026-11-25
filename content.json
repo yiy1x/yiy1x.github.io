@@ -973,6 +973,7 @@
     },
     {
       "slug": "personal-blog",
+      "listPlacement": "last",
       "brief": {
         "title": "个人技术博客",
         "titleEn": "Personal Technical Blog",
@@ -1137,6 +1138,7 @@
     },
     {
       "id": "personal-blog-introduction",
+      "showOnHome": false,
       "date": "2026-11-25",
       "text": "新增「个人技术博客」项目介绍，记录这个网站如何通过静态生成、独立双语页面和统一链接管理组织论文、项目与笔记，并利用 GitHub Actions 检查和部署；附现有博客源码入口。",
       "textEn": "Added Personal Technical Blog, an introduction to how this site uses static generation, separate language pages, and shared links to organize papers, projects, and notes, with GitHub Actions for validation and deployment. The existing blog source is linked from the article.",

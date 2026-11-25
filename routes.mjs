@@ -23,6 +23,10 @@ function entryDate(entry) {
   return entry.publishedAt || (entry.publication?.year ? `${entry.publication.year}-${String(entry.publication.month || 0).padStart(2, '0')}` : '');
 }
 
+function comparePlacement(first, second) {
+  return Number(first.listPlacement === 'last') - Number(second.listPlacement === 'last');
+}
+
 function compareEntries(first, second) {
   const yearDifference = Number(entryDate(second).slice(0, 4)) - Number(entryDate(first).slice(0, 4));
   if (yearDifference) return yearDifference;
@@ -161,6 +165,10 @@ export function createSiteModel(input) {
       for (const field of ['titleEn', 'summaryZh']) text(entry[field], `entry.${field}`);
     }
     if (entry.summaryZh !== undefined) text(entry.summaryZh, 'entry.summaryZh');
+    if (entry.listPlacement !== undefined) {
+      if (entry.topic === 'papers') throw new Error('Paper placement is controlled by paperOrder');
+      if (!['normal', 'last'].includes(entry.listPlacement)) throw new Error('entry.listPlacement must be normal or last');
+    }
     if (entry.brief !== undefined) {
       record(entry.brief, 'entry.brief');
       for (const field of ['title', 'summary', 'summaryZh']) text(entry.brief[field], `entry.brief.${field}`);
@@ -230,13 +238,15 @@ export function createSiteModel(input) {
     paperRanks.set(slug, paperRanks.size);
   }
   const orderedEntries = [...content.entries].sort((first, second) => {
+    const placementDifference = comparePlacement(first, second);
+    if (placementDifference) return placementDifference;
     const firstRank = paperRanks.get(first.slug);
     const secondRank = paperRanks.get(second.slug);
     if (firstRank !== undefined || secondRank !== undefined) return (firstRank ?? paperRanks.size) - (secondRank ?? paperRanks.size);
     return compareEntries(first, second);
   });
   const homeEntries = [...content.entries].reverse().sort((first, second) =>
-    entryDate(second).localeCompare(entryDate(first)));
+    comparePlacement(first, second) || entryDate(second).localeCompare(entryDate(first)));
 
   if (content.featuredEntry != null && !entries.has(content.featuredEntry)) throw new Error(`Unknown featured entry: ${content.featuredEntry}`);
   const updateIds = new Set();
